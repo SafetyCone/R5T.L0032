@@ -7,6 +7,7 @@ using R5T.T0179.N001;
 
 namespace R5T.L0032.T000
 {
+    /// <inheritdoc cref="IPackageReferenceItemGroupElement"/>
     [StrongTypeImplementationMarker]
     public class PackageReferenceItemGroupElement : TypedBase<XElement>, IStrongTypeImplementationMarker,
         IPackageReferenceItemGroupElement

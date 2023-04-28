@@ -27,6 +27,12 @@ namespace R5T.L0032.T000
             return output;
         }
 
+        public IOutputType ToOutputType(string value)
+        {
+            var output = new OutputType(value);
+            return output;
+        }
+
         public IPackageLicenseExpression ToPackageLicenseExpression(string value)
         {
             var output = new PackageLicenseExpression(value);

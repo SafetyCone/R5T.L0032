@@ -11,6 +11,13 @@ namespace R5T.L0032
     [FunctionalityMarker]
     public partial interface IProjectFileOperator : IFunctionalityMarker
     {
+        public Task Save(IProjectFilePath projectFilePath, IProjectElement projectElement)
+        {
+            return Instances.XmlOperator.Save(
+                projectFilePath,
+                projectElement.Value);
+        }
+
         public void Save_Synchronous(IProjectFilePath projectFilePath, IProjectElement projectElement)
         {
             Instances.XmlOperator.Save_Synchronous(

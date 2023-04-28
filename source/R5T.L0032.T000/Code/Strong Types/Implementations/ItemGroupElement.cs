@@ -7,6 +7,7 @@ using R5T.T0179.N001;
 
 namespace R5T.L0032.T000
 {
+    /// <see cref="IItemGroupElement"/>
     [StrongTypeImplementationMarker]
     public class ItemGroupElement : TypedBase<XElement>, IStrongTypeImplementationMarker,
         IItemGroupElement

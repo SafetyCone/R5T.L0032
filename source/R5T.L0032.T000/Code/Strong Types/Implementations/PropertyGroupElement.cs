@@ -7,6 +7,7 @@ using R5T.T0179.N001;
 
 namespace R5T.L0032.T000
 {
+    /// <inheritdoc cref="IPropertyGroupElement"/>
     [StrongTypeImplementationMarker]
     public class PropertyGroupElement : TypedBase<XElement>, IStrongTypeImplementationMarker,
         IPropertyGroupElement

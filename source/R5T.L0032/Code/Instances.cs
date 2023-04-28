@@ -11,6 +11,7 @@ namespace R5T.L0032
         public static IIntegerOperator IntegerOperator => L0032.IntegerOperator.Instance;
         public static IGroupLabels GroupLabels => L0032.GroupLabels.Instance;
         public static IGuidOperator GuidOperator => L0032.GuidOperator.Instance;
+        public static Z000.IOutputTypes OutputTypes => Z000.OutputTypes.Instance;
         public static F0002.IPathOperator PathOperator => F0002.PathOperator.Instance;
         public static Z000.IProjectElementNames ProjectElementNames => Z000.ProjectElementNames.Instance;
         public static IProjectPathsOperator ProjectPathsOperator => L0032.ProjectPathsOperator.Instance;

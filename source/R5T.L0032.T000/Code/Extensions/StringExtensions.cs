@@ -20,6 +20,11 @@ namespace R5T.L0032.T000.Extensions
             return Instances.StringOperator.ToNugetUserName(value);
         }
 
+        public static IOutputType ToOutputType(this string value)
+        {
+            return Instances.StringOperator.ToOutputType(value);
+        }
+
         public static IPackageLicenseExpression ToPackageLicenseExpression(this string value)
         {
             return Instances.StringOperator.ToPackageLicenseExpression(value);

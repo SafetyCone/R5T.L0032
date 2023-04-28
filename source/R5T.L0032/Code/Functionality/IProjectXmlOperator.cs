@@ -417,6 +417,16 @@ namespace R5T.L0032
                 description);
         }
 
+        public void Set_OutputType(
+            IProjectElement projectElement,
+            IOutputType outputType)
+        {
+            this.Set_MainPropertyGroupElementValue(
+                projectElement,
+                Instances.ProjectElementNames.OutputType,
+                outputType.Value);
+        }
+
         public void Set_PackageLicenseExpression(
             IProjectElement projectElement,
             IPackageLicenseExpression packageLicenseExpression)

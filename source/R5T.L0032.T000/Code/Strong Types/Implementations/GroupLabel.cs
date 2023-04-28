@@ -6,6 +6,7 @@ using R5T.T0179;
 
 namespace R5T.L0032.T000
 {
+    /// <see cref="IGroupLabel"/>
     [StrongTypeImplementationMarker]
     public class GroupLabel : TypedBase<string>, IStrongTypeImplementationMarker,
         IGroupLabel

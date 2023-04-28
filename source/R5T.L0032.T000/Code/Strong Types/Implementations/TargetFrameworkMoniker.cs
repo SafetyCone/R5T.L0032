@@ -7,6 +7,7 @@ using R5T.T0179;
 
 namespace R5T.L0032.T000
 {
+    /// <inheritdoc cref="ITargetFrameworkMoniker"/>
     [StrongTypeImplementationMarker]
     public class TargetFrameworkMoniker : TypedBase<string>, IStrongTypeImplementationMarker,
         ITargetFrameworkMoniker
