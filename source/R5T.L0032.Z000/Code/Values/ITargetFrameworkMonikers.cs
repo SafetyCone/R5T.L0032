@@ -27,7 +27,11 @@ namespace R5T.L0032.Z000
         public ITargetFrameworkMoniker Standard => this.NET_6;
 
 
+        /// <summary>
+        /// net6.0 - .NET 6.0.
+        /// </summary>
         public const string NET_6_Constant = "net6.0";
+        /// <inheritdoc cref="NET_6_Constant"/>
         public ITargetFrameworkMoniker NET_6 => ITargetFrameworkMonikers.NET_6_Constant.ToTargetFrameworkMoniker();
         public ITargetFrameworkMoniker NET_6_Windows => "net6.0-windows".ToTargetFrameworkMoniker();
         public const string NET_5_Constant = "net5.0";
