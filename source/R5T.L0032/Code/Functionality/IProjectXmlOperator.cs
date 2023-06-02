@@ -7,6 +7,10 @@ using R5T.L0030.Extensions;
 using R5T.L0030.T000;
 using R5T.T0132;
 using R5T.T0172;
+using R5T.T0198;
+using R5T.T0202;
+using R5T.T0205;
+using R5T.T0206;
 
 using R5T.L0032.T000;
 using R5T.L0032.T000.Extensions;
@@ -345,6 +349,14 @@ namespace R5T.L0032
                 versionString);
         }
 
+        public void Order_MainPropertyGroupNodes(IProjectElement projectElement)
+        {
+            var mainPropertyGroupElement = this.Acquire_MainPropertyGroup(projectElement);
+
+            mainPropertyGroupElement.Value.OrderChildren_ByNames(
+                Instances.ProjectElementNameSets.MainPropertyGroupOrderedNames_Default);
+        }
+
         public IProjectElement New_ProjectElement()
         {
             var projectElement = Instances.XmlOperator.New_Element(
@@ -417,6 +429,27 @@ namespace R5T.L0032
                 description);
         }
 
+        public void Set_GenerateDocumentationFile(
+            IProjectElement projectElement,
+            bool value = true)
+        {
+            var valueString = Instances.BooleanOperator.ToString_ForProjectXml(value);
+
+            this.Set_MainPropertyGroupElementValue(
+                projectElement,
+                Instances.ProjectElementNames.GenerateDocumentationFile,
+                valueString);
+        }
+
+        /// <summary>
+        /// Remote the output type element.
+        /// Useful for web projects.
+        /// </summary>
+        public void Remove_OutputType(IProjectElement projectElement)
+        {
+
+        }
+
         public void Set_OutputType(
             IProjectElement projectElement,
             IOutputType outputType)
@@ -457,6 +490,27 @@ namespace R5T.L0032
                 projectElement,
                 Instances.ProjectElementNames.RepositoryUrl,
                 repositoryUrl.Value);
+        }
+
+        public void Set_NoWarn(
+            IProjectElement projectElement,
+            string concatenatedWarnings)
+        {
+            this.Set_MainPropertyGroupElementValue(
+                projectElement,
+                Instances.ProjectElementNames.NoWarn,
+                concatenatedWarnings);
+        }
+
+        public void Set_NoWarn(
+            IProjectElement projectElement,
+            IEnumerable<IWarning> warnings)
+        {
+            var valueString = Instances.ProjectOperator.Get_WarningsConcatentation(warnings);
+
+            this.Set_NoWarn(
+                projectElement,
+                valueString);
         }
     }
 }

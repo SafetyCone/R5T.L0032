@@ -8,5 +8,6 @@
     <ProjectReference Include="..\..\..\R5T.L0034\source\R5T.L0034\R5T.L0034.csproj" />
     <ProjectReference Include="..\..\..\R5T.T0172\source\R5T.T0172\R5T.T0172.csproj" />
     <ProjectReference Include="..\..\..\R5T.T0179\source\R5T.T0179\R5T.T0179.csproj" />
+    <ProjectReference Include="..\..\..\R5T.T0198\source\R5T.T0198\R5T.T0198.csproj" />
   </ItemGroup>
 </Project>

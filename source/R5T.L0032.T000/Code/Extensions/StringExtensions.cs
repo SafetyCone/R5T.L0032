@@ -30,24 +30,9 @@ namespace R5T.L0032.T000.Extensions
             return Instances.StringOperator.ToPackageLicenseExpression(value);
         }
 
-        public static IPackageName ToPackageName(this string value)
-        {
-            return Instances.StringOperator.ToPackageName(value);
-        }
-
         public static IProjectSdkName ToProjectSdkName(this string value)
         {
             return Instances.StringOperator.ToProjectSdkName(value);
-        }
-
-        public static IPackageVersion ToPackageVersion(this string value)
-        {
-            return Instances.StringOperator.ToPackageVersion(value);
-        }
-
-        public static IRepositoryUrl ToRepositoryUrl(this string value)
-        {
-            return Instances.StringOperator.ToRepositoryUrl(value);
         }
 
         public static ITargetFrameworkMoniker ToTargetFrameworkMoniker(this string value)

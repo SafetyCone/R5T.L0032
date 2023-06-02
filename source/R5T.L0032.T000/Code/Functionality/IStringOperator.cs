@@ -39,29 +39,9 @@ namespace R5T.L0032.T000
             return output;
         }
 
-        public IPackageName ToPackageName(string value)
-        {
-            var output = new PackageName(value);
-            return output;
-        }
-
-        public IPackageVersion ToPackageVersion(string value)
-        {
-            var version = value.ToVersion();
-
-            var output = new PackageVersion(version);
-            return output;
-        }
-
         public IProjectSdkName ToProjectSdkName(string value)
         {
             var output = new ProjectSdkName(value);
-            return output;
-        }
-
-        public IRepositoryUrl ToRepositoryUrl(string value)
-        {
-            var output = new RepositoryUrl(value);
             return output;
         }
 

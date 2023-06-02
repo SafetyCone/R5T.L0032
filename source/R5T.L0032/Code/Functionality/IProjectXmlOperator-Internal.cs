@@ -7,11 +7,14 @@ using R5T.F0000;
 using R5T.L0030.Extensions;
 using R5T.L0030.T000;
 using R5T.T0132;
+using R5T.T0172;
+using R5T.T0205;
+using R5T.T0206;
 
 using R5T.L0032.Extensions;
 using R5T.L0032.T000;
 using R5T.L0032.T000.Extensions;
-using R5T.T0172;
+
 
 namespace R5T.L0032.Internal
 {
@@ -611,7 +614,7 @@ namespace R5T.L0032.Internal
 
         public IProjectReferenceElement Get_ProjectReferenceElement(IProjectDirectoryRelativePath projectReferenceRelativePath)
         {
-            var element = Instances.XElementOperator.New(Instances.ProjectElementNames.PackageReference);
+            var element = Instances.XElementOperator.New(Instances.ProjectElementNames.ProjectReference);
 
             element.SetAttributeValue(
                 Instances.ProjectElementNames.Include.Value,
