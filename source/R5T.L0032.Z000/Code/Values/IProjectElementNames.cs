@@ -5,6 +5,8 @@ using R5T.T0131;
 using R5T.L0030.T000;
 using R5T.L0030.T000.Extensions;
 
+using IElementOrAttributeName = R5T.L0030.T000.N001.IElementName;
+
 
 namespace R5T.L0032.Z000
 {
@@ -52,7 +54,7 @@ namespace R5T.L0032.Z000
         public IElementName TargetFrameworkVersion => "TargetFrameworkVersion".ToElementName();
         public IAttributeName Update => "Update".ToAttributeName();
         public IElementName UseWindowsForms => "UseWindowsForms".ToElementName();
-        public IElementName Version => "Version".ToElementName();
+        public IElementOrAttributeName Version => "Version".ToElementName_N001();
         public IElementName VersionMinor => "VersionMinor".ToElementName();
         public IElementName VersionMajor => "VersionMajor".ToElementName();
         public IElementName WrapperTool => "WrapperTool".ToElementName();

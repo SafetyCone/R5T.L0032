@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 
 using R5T.F0120;
 using R5T.L0030.Extensions;
@@ -15,6 +16,8 @@ using R5T.T0206;
 using R5T.L0032.T000;
 using R5T.L0032.T000.Extensions;
 
+using SimplePackageReference = R5T.T0208.PackageReference;
+using R5T.F0000;
 
 namespace R5T.L0032
 {
@@ -242,12 +245,6 @@ namespace R5T.L0032
             return Internal.Acquire_ProjectReferencesItemGroup(projectElement);
         }
 
-        public IProjectReferenceItemGroupElement Add_ProjectReferencesItemGroup_Idempotent(IProjectElement projectElement)
-        {
-            // Acquire will add the property group if it does not exist.
-            return this.Acquire_ProjectReferencesItemGroup(projectElement);
-        }
-
         /// <summary>
         /// Chooses <see cref="Add_MainPropertyGroup_Idempotent(IProjectElement)"/> as the default.
         /// </summary>
@@ -292,6 +289,75 @@ namespace R5T.L0032
         public ICopyToOutputItemGroupElement Add_CopyToOutputItemGroup(IProjectElement projectElement)
         {
             return this.Add_CopyToOutputItemGroup_Idempotent(projectElement);
+        }
+
+        public IProjectReferenceItemGroupElement Add_ProjectReferencesItemGroup_Idempotent(IProjectElement projectElement)
+        {
+            // Acquire will add the property group if it does not exist.
+            return this.Acquire_ProjectReferencesItemGroup(projectElement);
+        }
+
+        public SimplePackageReference[] Get_PackageReferences(IProjectElement projectElement)
+        {
+            var hasPackageReferenceItemGroup = Internal.Has_PackageReferenceItemGroup(projectElement);
+            if(!hasPackageReferenceItemGroup)
+            {
+                return Instances.ArrayOperator.Get_NewEmpty<SimplePackageReference>();
+            }
+
+            var packageReferenceItemGroup = hasPackageReferenceItemGroup.Result;
+
+            var packageReferenceElements = Internal.Get_PackageReferenceElements(packageReferenceItemGroup);
+
+            var output = packageReferenceElements
+                .Select(packageReferenceElement =>
+                {
+                    var packageName = this.Get_IncludeAttributeValue(packageReferenceElement.Value);
+                    var version = Instances.XmlOperator.Get_AttributeValue(
+                        packageReferenceElement.Value,
+                        Instances.ProjectElementNames.Version);
+
+                    var output = new SimplePackageReference
+                    {
+                        Identity = packageName,
+                        Version = version,
+                    };
+                    return output;
+                })
+                .Now();
+
+            return output;
+        }
+
+        public string Get_IncludeAttributeValue(XElement element)
+        {
+            var hasIncludeAttributeValue = this.Has_IncludeAttributeValue(element);
+
+            var output = Instances.WasFoundOperator.ResultOrExceptionIfNotFound(hasIncludeAttributeValue);
+            return output;
+        }
+        
+        public WasFound<XAttribute> Has_IncludeAttribute(XElement element)
+        {
+            var includeAttributeOrDefault = element.Get_Attributes()
+                .Where_NameIs(Instances.ProjectElementNames.Include)
+                // Use strict single instead of robust first since there should only be a single include attribute.
+                .SingleOrDefault();
+
+            var output = WasFound.From(includeAttributeOrDefault);
+            return output;
+        }
+        
+        public WasFound<string> Has_IncludeAttributeValue(XElement element)
+        {
+            var includeAttributeWasFound = this.Has_IncludeAttribute(element);
+            if(!includeAttributeWasFound)
+            {
+                return WasFound.NotFound<string>();
+            }
+
+            var output = WasFound.Found(includeAttributeWasFound.Result.Value);
+            return output;
         }
 
         public void Set_MainPropertyGroupElementValue(

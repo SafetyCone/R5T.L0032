@@ -14,7 +14,7 @@ using R5T.T0206;
 using R5T.L0032.Extensions;
 using R5T.L0032.T000;
 using R5T.L0032.T000.Extensions;
-
+using System.Net.WebSockets;
 
 namespace R5T.L0032.Internal
 {
@@ -559,6 +559,17 @@ namespace R5T.L0032.Internal
                 versionString);
 
             var output = element.ToPackageReferenceElement();
+            return output;
+        }
+
+        public IPackageReferenceElement[] Get_PackageReferenceElements(IPackageReferenceItemGroupElement packageReferenceItemGroupElement)
+        {
+            var output = Instances.XElementOperator.Get_ChildrenWithName(
+                packageReferenceItemGroupElement.Value,
+                Instances.ProjectElementNames.PackageReference)
+                .Select(element => element.ToPackageReferenceElement())
+                .Now();
+
             return output;
         }
 
