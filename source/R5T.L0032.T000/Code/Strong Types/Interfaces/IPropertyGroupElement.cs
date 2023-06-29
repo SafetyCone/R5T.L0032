@@ -1,15 +1,17 @@
 ﻿using System;
-using System.Xml.Linq;
 
 using R5T.T0178;
-using R5T.T0179;
 
 
 namespace R5T.L0032.T000
 {
+    /// <summary>
+    /// See: <see href="https://learn.microsoft.com/en-us/visualstudio/msbuild/propertygroup-element-msbuild?view=vs-2022"/>
+    /// </summary>
     [StrongTypeMarker]
     public interface IPropertyGroupElement : IStrongTypeMarker,
-        ITyped<XElement>
+        N001.IProjectElement,
+        ILabeled
     {
     }
 }

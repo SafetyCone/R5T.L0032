@@ -33,6 +33,13 @@ namespace R5T.L0032.T000
             return output;
         }
 
+        /// <inheritdoc cref="ICustomPropertyGroupElement"/>
+        public ICustomPropertyGroupElement ToCustomPropertyGroupElement(XElement value)
+        {
+            var output = new CustomPropertyGroupElement(value);
+            return output;
+        }
+
         public IMainPropertyGroupElement ToMainPropertyGroupElement(XElement value)
         {
             var output = new MainPropertyGroupElement(value);

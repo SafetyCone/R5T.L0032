@@ -14,7 +14,7 @@ using R5T.T0206;
 using R5T.L0032.Extensions;
 using R5T.L0032.T000;
 using R5T.L0032.T000.Extensions;
-using System.Net.WebSockets;
+
 
 namespace R5T.L0032.Internal
 {
@@ -45,24 +45,31 @@ namespace R5T.L0032.Internal
             return hasGroupElement.Result;
         }
 
+        public XElement Acquire_ItemGroupChild(
+            IProjectElement projectElement,
+            IElementName elementName)
+        {
+            var hasItemGroup = this.Has_ItemGroup_WithChild(
+                projectElement,
+                elementName);
+
+            var itemGroup = hasItemGroup
+                ? hasItemGroup.Result
+                : this.Add_ItemGroup(projectElement)
+                ;
+
+            var itemGroupChild = itemGroup.Acquire_Child(
+                elementName);
+
+            return itemGroupChild;
+        }
+
         public IPackageReferenceItemGroupElement Acquire_PackageReferencesItemGroup(IProjectElement projectElement)
         {
             var hasGroupElement = this.Has_PackageReferenceItemGroup(projectElement);
             if (!hasGroupElement)
             {
                 var output = this.Add_PackageReferenceItemGroup(projectElement);
-                return output;
-            }
-
-            return hasGroupElement.Result;
-        }
-
-        public IProjectReferenceItemGroupElement Acquire_ProjectReferencesItemGroup(IProjectElement projectElement)
-        {
-            var hasGroupElement = this.Has_ProjectReferenceItemGroup(projectElement);
-            if (!hasGroupElement)
-            {
-                var output = this.Add_ProjectReferenceItemGroup(projectElement);
                 return output;
             }
 
@@ -77,30 +84,12 @@ namespace R5T.L0032.Internal
             return sdkAttribute;
         }
 
-        /// <summary>
-        /// Creates a new main property group element, adds it to the project element, then returns the newly created and added property group element.
-        /// </summary>
-        /// <returns>The newly created and added main property group element.</returns>
-        public IMainPropertyGroupElement Add_MainPropertyGroup(IProjectElement projectElement)
+        public XAttribute Acquire_IncludeAttribute(XElement element)
         {
-            var mainPropertyGroupElement = this.New_MainPropertyGroup();
+            var includeAttribute = element.Acquire_Attribute(
+                Instances.ProjectElementNames.Include);
 
-            projectElement.Value.Add_Child(mainPropertyGroupElement);
-
-            return mainPropertyGroupElement.ToMainPropertyGroupElement();
-        }
-
-        /// <summary>
-        /// Creates a new package property group element, adds it to the project element, then returns the newly created and added property group element.
-        /// </summary>
-        /// <returns>The newly created and added package property group element.</returns>
-        public IPackagePropertyGroupElement Add_PackagePropertyGroup(IProjectElement projectElement)
-        {
-            var propertyGroupElement = this.New_PackagePropertyGroup();
-
-            projectElement.Value.Add_Child(propertyGroupElement);
-
-            return propertyGroupElement.ToPackagePropertyGroupElement();
+            return includeAttribute;
         }
 
         /// <summary>
@@ -116,124 +105,56 @@ namespace R5T.L0032.Internal
             return groupElement.ToCOMReferenceItemGroupElement();
         }
 
-        /// <summary>
-        /// Creates a new project references item group element, adds it to the project element, then returns the newly created and added item group element.
-        /// </summary>
-        /// <returns>The newly created and added item group element.</returns>
-        public IProjectReferenceItemGroupElement Add_ProjectReferenceItemGroup(IProjectElement projectElement)
-        {
-            var groupElement = this.New_ProjectReferencesItemGroup();
-
-            projectElement.Value.Add_Child(groupElement);
-
-            return groupElement.ToProjectReferenceItemGroupElement();
-        }
-
-        public WasFound<IPropertyGroupElement> Has_PropertyGroup_WithChild(IProjectElement projectElement,
-            IElementName grandChildName)
-        {
-            var output = projectElement.Value.Has_ChildWithChild(
-                Instances.ProjectElementNames.PropertyGroup,
-                grandChildName)
-                .Convert(element => element.ToPropertyGroupElement());
-
-            return output;
-        }
-
-        public WasFound<IItemGroupElement> Has_ItemGroup_WithChild(IProjectElement projectElement,
+        public WasFound<XElement> Has_ItemGroup_WithChild(IProjectElement projectElement,
             IElementName grandChildName)
         {
             var output = projectElement.Value.Has_ChildWithChild(
                 Instances.ProjectElementNames.ItemGroup,
-                grandChildName)
-                .Convert(element => element.ToItemGroupElement());
+                grandChildName);
 
             return output;
         }
 
-        public WasFound<IMainPropertyGroupElement> Has_MainPropertyGroup(IProjectElement projectElement)
+        public WasFound<XElement> Has_LabeledItemGroup(
+            IProjectElement projectElement,
+            string labelValue)
         {
-            // A project element might have multiple property group elements.
-            // So what is the "main" property group element anyway?
-            // Here the main property group is defined via three methods:
-            //  1. Is there a property group with a target-framework element?
-            //  2. Is there a property group with a label attribute, with the main value?
-            //  3. Is there at least one property group? Take that one.
-            // Otherwise, there is no main property group element.
-
-            // Is there a property group with a target-framework element?
-            var hasTargetFrameworkPropertyGroup = this.Has_PropertyGroup_WithChild(
-                projectElement,
-                Instances.ProjectElementNames.TargetFramework);
-
-            if(hasTargetFrameworkPropertyGroup)
-            {
-                return hasTargetFrameworkPropertyGroup
-                    .Convert(propertyGroupElement => propertyGroupElement.Value.ToMainPropertyGroupElement());
-            }
-
-            // Is there a property group with a label attribute, with the main value?
-            var hasLabeledPropertyGroup = projectElement.Value.Has_Child_ByNameAndAttributeValue(
-                Instances.ProjectElementNames.PropertyGroup,
+            var output = projectElement.Value.Has_Child_ByNameAndAttributeValue(
+                Instances.ProjectElementNames.ItemGroup,
                 Instances.ProjectElementNames.Label,
-                Instances.GroupLabels.Main.Value);
+                labelValue);
 
-            if(hasLabeledPropertyGroup != default)
-            {
-                return WasFound.Found(hasLabeledPropertyGroup.Result.ToMainPropertyGroupElement());
-            }
-
-            // Is there at least one property group? Take the first.
-            var firstPropertyGroupOrDefault = projectElement.Value.Get_Children()
-                .Where_NameIs(Instances.ProjectElementNames.PropertyGroup)
-                .FirstOrDefault();
-
-            if (firstPropertyGroupOrDefault != default)
-            {
-                return WasFound.Found(firstPropertyGroupOrDefault.ToMainPropertyGroupElement());
-            }
-
-            // There is no main property group, so return not found.
-            var notFound = WasFound.NotFound<IMainPropertyGroupElement>();
-            return notFound;
+            return output;
         }
 
-        public WasFound<IPackagePropertyGroupElement> Has_PackagePropertyGroup(IProjectElement projectElement)
+        public WasFound<XElement> Has_LabeledItemGroup(
+            IProjectElement projectElement,
+            IGroupLabel groupLabel)
         {
-            // A project element might have multiple property group elements.
-            // So what is the "package" property group element anyway?
-            // Here the package property group is defined via two methods:
-            //  1. Is there a property group with a version element?
-            //  2. Is there a property group with a label attribute, with the package value?
-            // Otherwise, there is no main property group element.
-            // We don't take care if there is at least one property group, since that will be the main property group. We want a version property group.
-
-
-            // Is there a property group with a version element?
-            var hasVersionPropertyGroup = this.Has_PropertyGroup_WithChild(
+            return this.Has_LabeledItemGroup(
                 projectElement,
-                Instances.ProjectElementNames.Version);
+                groupLabel.Value);
+        }
 
-            if (hasVersionPropertyGroup)
-            {
-                return hasVersionPropertyGroup
-                    .Convert(propertyGroupElement => propertyGroupElement.Value.ToPackagePropertyGroupElement());
-            }
-
-            // Is there a property group with a label attribute, with the package value?
-            var hasLabeledPropertyGroup = projectElement.Value.Has_Child_ByNameAndAttributeValue(
+        public WasFound<XElement> Has_LabeledPropertyGroup(
+            IProjectElement projectElement,
+            string labelValue)
+        {
+            var output = projectElement.Value.Has_Child_ByNameAndAttributeValue(
                 Instances.ProjectElementNames.PropertyGroup,
                 Instances.ProjectElementNames.Label,
-                Instances.GroupLabels.Package.Value);
+                labelValue);
 
-            if (hasLabeledPropertyGroup != default)
-            {
-                return WasFound.Found(hasLabeledPropertyGroup.Result.ToPackagePropertyGroupElement());
-            }
+            return output;
+        }
 
-            // There is no package property group, so return not found.
-            var notFound = WasFound.NotFound<IPackagePropertyGroupElement>();
-            return notFound;
+        public WasFound<XElement> Has_LabeledPropertyGroup(
+            IProjectElement projectElement,
+            IGroupLabel groupLabel)
+        {
+            return this.Has_LabeledPropertyGroup(
+                projectElement,
+                groupLabel.Value);
         }
 
         public WasFound<ICOMReferenceItemGroupElement> Has_ComReferenceItemGroup(IProjectElement projectElement)
@@ -255,60 +176,21 @@ namespace R5T.L0032.Internal
             if (hasItemGroup)
             {
                 return hasItemGroup
-                    .Convert(propertyGroupElement => propertyGroupElement.Value.ToCOMReferenceItemGroupElement());
+                    .Convert(propertyGroupElement => propertyGroupElement.ToCOMReferenceItemGroupElement());
             }
 
             // Is there an item group with a label attribute, with the COM references value?
-            var hasLabeledPropertyGroup = projectElement.Value.Has_Child_ByNameAndAttributeValue(
-                Instances.ProjectElementNames.ItemGroup,
-                Instances.ProjectElementNames.Label,
-                Instances.GroupLabels.COMReferences.Value);
+            var hasLabeledItemGroup = this.Has_LabeledItemGroup(
+                projectElement,
+                Instances.GroupLabels.COMReferences);
 
-            if (hasLabeledPropertyGroup != default)
+            if (hasLabeledItemGroup != default)
             {
-                return WasFound.Found(hasLabeledPropertyGroup.Result.ToCOMReferenceItemGroupElement());
+                return WasFound.Found(hasLabeledItemGroup.Result.ToCOMReferenceItemGroupElement());
             }
 
             // There is no item group, so return not found.
             var notFound = WasFound.NotFound<ICOMReferenceItemGroupElement>();
-            return notFound;
-        }
-
-        public WasFound<IProjectReferenceItemGroupElement> Has_ProjectReferenceItemGroup(IProjectElement projectElement)
-        {
-            // A project element might have multiple item group elements.
-            // So what is the "Project References" item group element anyway?
-            // Here the project references item group is defined via two methods:
-            //  1. Is there an item group with a ProjectReference element?
-            //  2. Is there an item group with a label attribute, with the project references value?
-            // Otherwise, there is no project references item group element.
-            // We don't take care if there is at least one item group. We want a project references item group.
-
-
-            // Is there an item group with a COM references element?
-            var hasItemGroup = this.Has_ItemGroup_WithChild(
-                projectElement,
-                Instances.ProjectElementNames.ProjectReference);
-
-            if (hasItemGroup)
-            {
-                return hasItemGroup
-                    .Convert(propertyGroupElement => propertyGroupElement.Value.ToProjectReferenceItemGroupElement());
-            }
-
-            // Is there an item group with a label attribute, with the COM references value?
-            var hasLabeledPropertyGroup = projectElement.Value.Has_Child_ByNameAndAttributeValue(
-                Instances.ProjectElementNames.ItemGroup,
-                Instances.ProjectElementNames.Label,
-                Instances.GroupLabels.ProjectReferences.Value);
-
-            if (hasLabeledPropertyGroup != default)
-            {
-                return WasFound.Found(hasLabeledPropertyGroup.Result.ToProjectReferenceItemGroupElement());
-            }
-
-            // There is no item group, so return not found.
-            var notFound = WasFound.NotFound<IProjectReferenceItemGroupElement>();
             return notFound;
         }
 
@@ -322,8 +204,8 @@ namespace R5T.L0032.Internal
         {
             var propertyGroupElement = this.New_PropertyGroup();
 
-            propertyGroupElement.Add_Attribute(
-                Instances.ProjectElementNames.Label,
+            Instances.LabeledOperator.Add_LabelAttribute(
+                propertyGroupElement,
                 propertyGroupLabel.Value);
 
             return propertyGroupElement;
@@ -339,11 +221,17 @@ namespace R5T.L0032.Internal
         {
             var propertyGroupElement = this.New_ItemGroup();
 
-            propertyGroupElement.Add_Attribute(
-                Instances.ProjectElementNames.Label,
+            Instances.LabeledOperator.Add_LabelAttribute(
+                propertyGroupElement,
                 itemGroupLabel.Value);
 
             return propertyGroupElement;
+        }
+
+        public XElement New_CustomPropertyGroup()
+        {
+            var customPropertyGroupElement = this.New_PropertyGroup(Instances.GroupLabels.Custom);
+            return customPropertyGroupElement;
         }
 
         public XElement New_MainPropertyGroup()
@@ -370,6 +258,63 @@ namespace R5T.L0032.Internal
             return mainPropertyGroupElement;
         }
 
+        public WasFound<XElement> Has_MainPropertyGroup(IProjectElement projectElement)
+        {
+            // A project element might have multiple property group elements.
+            // So what is the "main" property group element anyway?
+            // Here the main property group is defined via three methods:
+            //  1. Is there a property group with a target-framework element?
+            //  2. Is there a property group with a label attribute, with the main value?
+            //  3. Is there at least one property group? Take that one.
+            // Otherwise, there is no main property group element.
+
+            // Is there a property group with a target-framework element?
+            var hasTargetFrameworkPropertyGroup = this.Has_PropertyGroup_WithChild(
+                projectElement,
+                Instances.ProjectElementNames.TargetFramework);
+
+            if (hasTargetFrameworkPropertyGroup)
+            {
+                return hasTargetFrameworkPropertyGroup;
+            }
+
+            // Is there a property group with a label attribute, with the main value?
+            var hasLabeledPropertyGroup = Instances.ProjectXmlOperator_Internal.Has_LabeledPropertyGroup(
+                projectElement,
+                Instances.GroupLabels.Main);
+
+            if (hasLabeledPropertyGroup != default)
+            {
+                return WasFound.Found(hasLabeledPropertyGroup.Result);
+            }
+
+            // Is there at least one property group? Take the first.
+            var firstPropertyGroupOrDefault = projectElement.Value.Get_Children()
+                .Where_NameIs(Instances.ProjectElementNames.PropertyGroup)
+                .FirstOrDefault();
+
+            if (firstPropertyGroupOrDefault != default)
+            {
+                return WasFound.Found(firstPropertyGroupOrDefault);
+            }
+
+            // There is no main property group, so return not found.
+            var notFound = WasFound.NotFound<XElement>();
+            return notFound;
+        }
+
+        public WasFound<XElement> Has_MainPropertyGroupChild(
+            IProjectElement projectElement,
+            IElementName childName)
+        {
+            var hasMainPropertyGroup = this.Has_MainPropertyGroup(projectElement);
+
+            var output = hasMainPropertyGroup.Convert(
+                mainPropertyGroup => mainPropertyGroup.Has_Child(childName));
+
+            return output;
+        }
+
         public WasFound<IPackageReferenceItemGroupElement> Has_PackageReferenceItemGroup(IProjectElement projectElement)
         {
             // A project element might have multiple item group elements.
@@ -389,23 +334,33 @@ namespace R5T.L0032.Internal
             if (hasItemGroup)
             {
                 return hasItemGroup
-                    .Convert(propertyGroupElement => propertyGroupElement.Value.ToPackageReferenceItemGroupElement());
+                    .Convert(propertyGroupElement => propertyGroupElement.ToPackageReferenceItemGroupElement());
             }
 
             // Is there an item group with a label attribute, with the COM references value?
-            var hasLabeledPropertyGroup = projectElement.Value.Has_Child_ByNameAndAttributeValue(
-                Instances.ProjectElementNames.ItemGroup,
-                Instances.ProjectElementNames.Label,
-                Instances.GroupLabels.PackageReferences.Value);
+            var hasLabeledItemGroup = this.Has_LabeledItemGroup(
+                projectElement,
+                Instances.GroupLabels.PackageReferences);
 
-            if (hasLabeledPropertyGroup != default)
+            if (hasLabeledItemGroup != default)
             {
-                return WasFound.Found(hasLabeledPropertyGroup.Result.ToPackageReferenceItemGroupElement());
+                return WasFound.Found(hasLabeledItemGroup.Result.ToPackageReferenceItemGroupElement());
             }
 
             // There is no item group, so return not found.
             var notFound = WasFound.NotFound<IPackageReferenceItemGroupElement>();
             return notFound;
+        }
+
+        public WasFound<XElement> Has_PropertyGroup_WithChild(
+            IProjectElement projectElement,
+            IElementName grandChildName)
+        {
+            var output = projectElement.Value.Has_ChildWithChild(
+                Instances.ProjectElementNames.PropertyGroup,
+                grandChildName);
+
+            return output;
         }
 
         public XElement New_PackageReferencesItemGroup()
@@ -446,18 +401,17 @@ namespace R5T.L0032.Internal
             if (hasItemGroup)
             {
                 return hasItemGroup
-                    .Convert(propertyGroupElement => propertyGroupElement.Value.ToCopyToOutputItemGroupElement());
+                    .Convert(propertyGroupElement => propertyGroupElement.ToCopyToOutputItemGroupElement());
             }
 
             // Is there an item group with a label attribute, with the copy-to-output value?
-            var hasLabeledPropertyGroup = projectElement.Value.Has_Child_ByNameAndAttributeValue(
-                Instances.ProjectElementNames.ItemGroup,
-                Instances.ProjectElementNames.Label,
-                Instances.GroupLabels.CopyToOutput.Value);
+            var hasLabeledItemGroup = this.Has_LabeledItemGroup(
+                projectElement,
+                Instances.GroupLabels.CopyToOutput);
 
-            if (hasLabeledPropertyGroup != default)
+            if (hasLabeledItemGroup != default)
             {
-                return WasFound.Found(hasLabeledPropertyGroup.Result.ToCopyToOutputItemGroupElement());
+                return WasFound.Found(hasLabeledItemGroup.Result.ToCopyToOutputItemGroupElement());
             }
 
             // There is no item group, so return not found.
@@ -573,6 +527,15 @@ namespace R5T.L0032.Internal
             return output;
         }
 
+        public XElement Add_ItemGroup(IProjectElement projectElement)
+        {
+            var itemGroupElement = Instances.ProjectXmlOperator_Internal.New_ItemGroup();
+
+            projectElement.Value.Add_Child(itemGroupElement);
+
+            return itemGroupElement;
+        }
+
         public IPackageReferenceElement Add_PackageReference(
             IProjectElement projectElement,
             PackageReference packageReference)
@@ -614,15 +577,6 @@ namespace R5T.L0032.Internal
             itemGroup.Value.Add_Child(packageReferenceElement.Value);
         }
 
-        public void Add_ProjectReferenceElement(
-            IProjectElement projectElement,
-            IProjectReferenceElement projectReferenceElement)
-        {
-            var itemGroup = this.Acquire_ProjectReferencesItemGroup(projectElement);
-
-            itemGroup.Value.Add_Child(projectReferenceElement.Value);
-        }
-
         public IProjectReferenceElement Get_ProjectReferenceElement(IProjectDirectoryRelativePath projectReferenceRelativePath)
         {
             var element = Instances.XElementOperator.New(Instances.ProjectElementNames.ProjectReference);
@@ -633,25 +587,6 @@ namespace R5T.L0032.Internal
 
             var output = element.ToProjectReferenceElement();
             return output;
-        }
-
-        public Dictionary<IProjectDirectoryRelativePath, IProjectReferenceElement> Add_ProjectReferences(
-            IProjectElement projectElement,
-            IEnumerable<IProjectDirectoryRelativePath> fileRelativepaths)
-        {
-            var projectReferenceElementsByRelativePath = fileRelativepaths
-                .ToDictionary(
-                    projectReferenceRelativePath => projectReferenceRelativePath,
-                    projectReferenceRelativePath => this.Get_ProjectReferenceElement(projectReferenceRelativePath));
-
-            var itemGroup = this.Acquire_ProjectReferencesItemGroup(projectElement);
-
-            foreach (var packageReference in projectReferenceElementsByRelativePath.Values)
-            {
-                itemGroup.Value.Add_Child(packageReference.Value);
-            }
-
-            return projectReferenceElementsByRelativePath;
         }
 
         public ICopyToOutputElement Get_CopyToOutputElement(IProjectDirectoryRelativePath projectReferenceRelativePath)

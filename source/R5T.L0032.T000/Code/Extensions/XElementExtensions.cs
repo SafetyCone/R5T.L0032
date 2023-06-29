@@ -26,6 +26,12 @@ namespace R5T.L0032.T000.Extensions
             return Instances.XElementOperator.ToCopyToOutputElement(value);
         }
 
+        /// <inheritdoc cref="ICustomPropertyGroupElement"/>
+        public static ICustomPropertyGroupElement ToCustomPropertyGroupElement(this XElement value)
+        {
+            return Instances.XElementOperator.ToCustomPropertyGroupElement(value);
+        }
+
         public static IMainPropertyGroupElement ToMainPropertyGroupElement(this XElement value)
         {
             return Instances.XElementOperator.ToMainPropertyGroupElement(value);

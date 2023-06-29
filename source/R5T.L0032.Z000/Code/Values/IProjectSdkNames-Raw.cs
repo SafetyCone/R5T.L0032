@@ -8,6 +8,9 @@ using R5T.L0032.T000.Extensions;
 
 namespace R5T.L0032.Z000.Raw
 {
+    /// <summary>
+    /// See: <see href="https://learn.microsoft.com/en-us/dotnet/core/project-sdk/overview"/>
+    /// </summary>
     [ValuesMarker]
     public partial interface IProjectSdkNames : IValuesMarker
     {

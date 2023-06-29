@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
+using R5T.F0000;
 using R5T.F0120;
 using R5T.L0030.Extensions;
 using R5T.L0030.T000;
@@ -13,11 +15,13 @@ using R5T.T0202;
 using R5T.T0205;
 using R5T.T0206;
 
+using R5T.L0032.Extensions;
 using R5T.L0032.T000;
 using R5T.L0032.T000.Extensions;
 
 using SimplePackageReference = R5T.T0208.PackageReference;
-using R5T.F0000;
+using Microsoft.VisualBasic;
+using System.Net.Http.Headers;
 
 namespace R5T.L0032
 {
@@ -27,22 +31,10 @@ namespace R5T.L0032
         private static Internal.IProjectXmlOperator Internal => L0032.Internal.ProjectXmlOperator.Instance;
 
 
-        public IMainPropertyGroupElement Acquire_MainPropertyGroup(IProjectElement projectElement)
-        {
-            var hasMainPropertyGroupElement = Internal.Has_MainPropertyGroup(projectElement);
-            if (!hasMainPropertyGroupElement)
-            {
-                var output = Internal.Add_MainPropertyGroup(projectElement);
-                return output;
-            }
-
-            return hasMainPropertyGroupElement.Result;
-        }
-
         public IMainPropertyGroupElement Add_MainPropertyGroup_Idempotent(IProjectElement projectElement)
         {
             // Acquire will add the property group if it does not exist.
-            return this.Acquire_MainPropertyGroup(projectElement);
+            return Instances.ProjectElementOperator_Internal.Acquire_MainPropertyGroup(projectElement);
         }
 
         /// <summary>
@@ -51,32 +43,6 @@ namespace R5T.L0032
         public IMainPropertyGroupElement Add_MainPropertyGroup(IProjectElement projectElement)
         {
             return this.Add_MainPropertyGroup_Idempotent(projectElement);
-        }
-
-        public IPackagePropertyGroupElement Acquire_PackagePropertyGroup(IProjectElement projectElement)
-        {
-            var hasPackageGroupElement = Internal.Has_PackagePropertyGroup(projectElement);
-            if (!hasPackageGroupElement)
-            {
-                var output = Internal.Add_PackagePropertyGroup(projectElement);
-                return output;
-            }
-
-            return hasPackageGroupElement.Result;
-        }
-
-        public IPackagePropertyGroupElement Add_PackagePropertyGroup_Idempotent(IProjectElement projectElement)
-        {
-            // Acquire will add the property group if it does not exist.
-            return this.Acquire_PackagePropertyGroup(projectElement);
-        }
-
-        /// <summary>
-        /// Chooses <see cref="Add_MainPropertyGroup_Idempotent(IProjectElement)"/> as the default.
-        /// </summary>
-        public IPackagePropertyGroupElement Add_PackagePropertyGroup(IProjectElement projectElement)
-        {
-            return this.Add_PackagePropertyGroup_Idempotent(projectElement);
         }
 
         public void Set_Sdk(IProjectElement projectElement, IProjectSdkName projectSdkName)
@@ -141,11 +107,21 @@ namespace R5T.L0032
 
         public Dictionary<IProjectDirectoryRelativePath, IProjectReferenceElement> Add_ProjectReferences(
             IProjectElement projectElement,
-            IEnumerable<IProjectDirectoryRelativePath> projectReferenceRelativePaths)
+            IEnumerable<IProjectDirectoryRelativePath> fileRelativepaths)
         {
-            return Internal.Add_ProjectReferences(
-                projectElement,
-                projectReferenceRelativePaths);
+            var projectReferenceElementsByRelativePath = fileRelativepaths
+                .ToDictionary(
+                    projectReferenceRelativePath => projectReferenceRelativePath,
+                    projectReferenceRelativePath => Internal.Get_ProjectReferenceElement(projectReferenceRelativePath));
+
+            var itemGroup = this.Acquire_ProjectReferencesItemGroup(projectElement);
+
+            foreach (var packageReference in projectReferenceElementsByRelativePath.Values)
+            {
+                itemGroup.Value.Add_Child(packageReference.Value);
+            }
+
+            return projectReferenceElementsByRelativePath;
         }
 
         public Dictionary<IProjectDirectoryRelativePath, IProjectReferenceElement> Add_ProjectReferences(
@@ -211,6 +187,15 @@ namespace R5T.L0032
                 .projectReferenceElement;
         }
 
+        public void Add_ProjectReferenceElement(
+            IProjectElement projectElement,
+            IProjectReferenceElement projectReferenceElement)
+        {
+            var itemGroup = this.Acquire_ProjectReferencesItemGroup(projectElement);
+
+            itemGroup.Value.Add_Child(projectReferenceElement.Value);
+        }
+
         public (IProjectDirectoryRelativePath projectDirectoryRelativePath, ICopyToOutputElement copyToOutputElement)[] Add_CopyToOutputs(
             IProjectElement projectElement,
             IEnumerable<IProjectDirectoryRelativePath> fileRelativePaths)
@@ -242,7 +227,27 @@ namespace R5T.L0032
 
         public IProjectReferenceItemGroupElement Acquire_ProjectReferencesItemGroup(IProjectElement projectElement)
         {
-            return Internal.Acquire_ProjectReferencesItemGroup(projectElement);
+            var hasGroupElement = this.Has_ProjectReferenceItemGroup(projectElement);
+            if (!hasGroupElement)
+            {
+                var output = this.Add_ProjectReferencesItemGroup_NonIdempotent(projectElement);
+                return output;
+            }
+
+            return hasGroupElement.Result;
+        }
+
+        /// <summary>
+        /// Creates a new project references item group element, adds it to the project element, then returns the newly created and added item group element.
+        /// </summary>
+        /// <returns>The newly created and added item group element.</returns>
+        public IProjectReferenceItemGroupElement Add_ProjectReferencesItemGroup_NonIdempotent(IProjectElement projectElement)
+        {
+            var groupElement = Internal.New_ProjectReferencesItemGroup();
+
+            projectElement.Value.Add_Child(groupElement);
+
+            return groupElement.ToProjectReferenceItemGroupElement();
         }
 
         /// <summary>
@@ -336,6 +341,23 @@ namespace R5T.L0032
             var output = Instances.WasFoundOperator.ResultOrExceptionIfNotFound(hasIncludeAttributeValue);
             return output;
         }
+
+        public void Set_IncludeAttributeValue(XElement element, string value)
+        {
+            var hasIncludeAttribute = Internal.Acquire_IncludeAttribute(element);
+
+            Instances.XmlOperator.Set_Value(hasIncludeAttribute, value);
+        }
+
+        public WasFound<XElement> Has_PrivateGitHubRepositoryProperty(IProjectElement projectElement)
+        {
+            var hasCustomPropertyGroup = Instances.ProjectElementOperator_Internal.Has_CustomPropertyGroup(projectElement);
+
+            var output = hasCustomPropertyGroup.Convert(
+                Instances.CustomPropertyGroupElementOperator.Has_PrivateGitHubRepositoryProperty);
+
+            return output;
+        }
         
         public WasFound<XAttribute> Has_IncludeAttribute(XElement element)
         {
@@ -360,67 +382,72 @@ namespace R5T.L0032
             return output;
         }
 
-        public void Set_MainPropertyGroupElementValue(
-            IProjectElement projectElement,
-            IElementName childPropertyElementName,
-            string value)
+        public WasFound<XElement> Has_NoWarnElement(IProjectElement projectElement)
         {
-            var mainPropertyGroup = this.Acquire_MainPropertyGroup(projectElement);
-
-            var targetFrameworkElement = mainPropertyGroup.Value.Acquire_Child(childPropertyElementName);
-
-            targetFrameworkElement.Value = value;
-        }
-
-        public void Set_TargetFramework(
-            IProjectElement projectElement,
-            ITargetFrameworkMoniker targetFrameworkMoniker)
-        {
-            this.Set_MainPropertyGroupElementValue(
+            var output = Internal.Has_MainPropertyGroupChild(
                 projectElement,
-                Instances.ProjectElementNames.TargetFramework,
-                targetFrameworkMoniker.Value);
+                Instances.ProjectElementNames.NoWarn);
+
+            return output;
         }
 
-        public void Set_PackagePropertyGroupElementValue(
-            IProjectElement projectElement,
-            IElementName childPropertyElementName,
-            string value)
+        public WasFound<IProjectReferenceItemGroupElement> Has_ProjectReferenceItemGroup(IProjectElement projectElement)
         {
-            var propertyGroup = this.Acquire_PackagePropertyGroup(projectElement);
+            // A project element might have multiple item group elements.
+            // So what is the "Project References" item group element anyway?
+            // Here the project references item group is defined via two methods:
+            //  1. Is there an item group with a ProjectReference element?
+            //  2. Is there an item group with a label attribute, with the project references value?
+            // Otherwise, there is no project references item group element.
+            // We don't take care if there is at least one item group. We want a project references item group.
 
-            var propertyElement = propertyGroup.Value.Acquire_Child(childPropertyElementName);
 
-            propertyElement.Value = value;
-        }
-
-        public void Set_Version(
-            IProjectElement projectElement,
-            IVersionString versionString)
-        {
-            this.Set_PackagePropertyGroupElementValue(
+            // Is there an item group with a COM references element?
+            var hasItemGroup = Internal.Has_ItemGroup_WithChild(
                 projectElement,
-                Instances.ProjectElementNames.Version,
-                versionString.Value);
-        }
+                Instances.ProjectElementNames.ProjectReference);
 
-        public void Set_Version(
-            IProjectElement projectElement,
-            Version version)
-        {
-            var versionString = Instances.VersionOperator.ToVersionString_ForProjectXml(version);
+            if (hasItemGroup)
+            {
+                return hasItemGroup
+                    .Convert(propertyGroupElement => propertyGroupElement.ToProjectReferenceItemGroupElement());
+            }
 
-            this.Set_Version(
+            // Is there an item group with a label attribute, with the COM references value?
+            var hasLabeledItemGroup = Internal.Has_LabeledItemGroup(
                 projectElement,
-                versionString);
+                Instances.GroupLabels.ProjectReferences);
+
+            if (hasLabeledItemGroup != default)
+            {
+                return WasFound.Found(hasLabeledItemGroup.Result.ToProjectReferenceItemGroupElement());
+            }
+
+            // There is no item group, so return not found.
+            var notFound = WasFound.NotFound<IProjectReferenceItemGroupElement>();
+            return notFound;
         }
 
-        public void Order_MainPropertyGroupNodes(IProjectElement projectElement)
+        public void In_CustomPropertyGroupElementContext(
+            IProjectElement projectElement,
+            Action<ICustomPropertyGroupElement> customPropertyGroupElementAction = default)
         {
-            var mainPropertyGroupElement = this.Acquire_MainPropertyGroup(projectElement);
+            var customPropertyGroupElement = Instances.ProjectElementOperator_Internal.Acquire_CustomPropertyGroup(projectElement);
 
-            mainPropertyGroupElement.Value.OrderChildren_ByNames(
-                Instances.ProjectElementNameSets.MainPropertyGroupOrderedNames_Default);
+            Instances.ActionOperator.Run(
+                customPropertyGroupElementAction,
+                customPropertyGroupElement);
+        }
+
+        public Task In_CustomPropertyGroupElementContext(
+            IProjectElement projectElement,
+            Func<ICustomPropertyGroupElement, Task> customPropertyGroupElementAction = default)
+        {
+            var customPropertyGroupElement = Instances.ProjectElementOperator_Internal.Acquire_CustomPropertyGroup(projectElement);
+
+            return Instances.ActionOperator.Run(
+                customPropertyGroupElementAction,
+                customPropertyGroupElement);
         }
 
         public IProjectElement New_ProjectElement()
@@ -433,150 +460,12 @@ namespace R5T.L0032
         }
 
         /// <summary>
-        /// When you use a Nuget user name as the author for your package, users on Nuget.org can click the author to see all packages by the author.
-        /// </summary>
-        public void Set_Author(
-            IProjectElement projectElement,
-            INugetUserName nugetUserName)
-        {
-            this.Set_PackagePropertyGroupElementValue(
-                projectElement,
-                Instances.ProjectElementNames.Authors,
-                nugetUserName.Value);
-        }
-
-        public void Set_Company(
-            IProjectElement projectElement,
-            ICompanyName companyName)
-        {
-            this.Set_PackagePropertyGroupElementValue(
-                projectElement,
-                Instances.ProjectElementNames.Company,
-                companyName.Value);
-        }
-
-        public void Set_Copyright(
-            IProjectElement projectElement,
-            string copyrightText)
-        {
-            this.Set_PackagePropertyGroupElementValue(
-                projectElement,
-                Instances.ProjectElementNames.Copyright,
-                copyrightText);
-        }
-
-        public void Set_Copyright_FromCopyrightHolder(
-            IProjectElement projectElement,
-            string copyrightHolder)
-        {
-            var copyrightText = Instances.CopyrightOperator.Get_CopyrightText(copyrightHolder);
-
-            this.Set_Copyright(
-                projectElement,
-                copyrightText);
-        }
-
-        public void Set_Description(
-            IProjectElement projectElement,
-            IDescription description)
-        {
-            this.Set_Description(
-                projectElement,
-                description.Value);
-        }
-
-        public void Set_Description(
-            IProjectElement projectElement,
-            string description)
-        {
-            this.Set_PackagePropertyGroupElementValue(
-                projectElement,
-                Instances.ProjectElementNames.Description,
-                description);
-        }
-
-        public void Set_GenerateDocumentationFile(
-            IProjectElement projectElement,
-            bool value = true)
-        {
-            var valueString = Instances.BooleanOperator.ToString_ForProjectXml(value);
-
-            this.Set_MainPropertyGroupElementValue(
-                projectElement,
-                Instances.ProjectElementNames.GenerateDocumentationFile,
-                valueString);
-        }
-
-        /// <summary>
         /// Remote the output type element.
         /// Useful for web projects.
         /// </summary>
         public void Remove_OutputType(IProjectElement projectElement)
         {
 
-        }
-
-        public void Set_OutputType(
-            IProjectElement projectElement,
-            IOutputType outputType)
-        {
-            this.Set_MainPropertyGroupElementValue(
-                projectElement,
-                Instances.ProjectElementNames.OutputType,
-                outputType.Value);
-        }
-
-        public void Set_PackageLicenseExpression(
-            IProjectElement projectElement,
-            IPackageLicenseExpression packageLicenseExpression)
-        {
-            this.Set_PackagePropertyGroupElementValue(
-                projectElement,
-                Instances.ProjectElementNames.PackageLicenseExpression,
-                packageLicenseExpression.Value);
-        }
-
-        public void Set_PackageRequireLicenseAcceptance(
-            IProjectElement projectElement,
-            bool requireLicenseAcceptance)
-        {
-            var value = Instances.BooleanOperator.ToString_ForProjectXml(requireLicenseAcceptance);
-
-            this.Set_PackagePropertyGroupElementValue(
-                projectElement,
-                Instances.ProjectElementNames.PackageRequireLicenseAcceptance,
-                value);
-        }
-
-        public void Set_RepositoryUrl(
-            IProjectElement projectElement,
-            IRepositoryUrl repositoryUrl)
-        {
-            this.Set_PackagePropertyGroupElementValue(
-                projectElement,
-                Instances.ProjectElementNames.RepositoryUrl,
-                repositoryUrl.Value);
-        }
-
-        public void Set_NoWarn(
-            IProjectElement projectElement,
-            string concatenatedWarnings)
-        {
-            this.Set_MainPropertyGroupElementValue(
-                projectElement,
-                Instances.ProjectElementNames.NoWarn,
-                concatenatedWarnings);
-        }
-
-        public void Set_NoWarn(
-            IProjectElement projectElement,
-            IEnumerable<IWarning> warnings)
-        {
-            var valueString = Instances.ProjectOperator.Get_WarningsConcatentation(warnings);
-
-            this.Set_NoWarn(
-                projectElement,
-                valueString);
         }
     }
 }

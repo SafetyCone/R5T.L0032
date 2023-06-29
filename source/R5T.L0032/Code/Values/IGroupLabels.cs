@@ -13,6 +13,7 @@ namespace R5T.L0032
     {
         public IGroupLabel COMReferences => "COM References".ToGroupLabel();
         public IGroupLabel CopyToOutput => "Copy To Output".ToGroupLabel();
+        public IGroupLabel Custom => "Custom".ToGroupLabel();
         public IGroupLabel Main => "Main".ToGroupLabel();
         public IGroupLabel Package => "Package".ToGroupLabel();
         public IGroupLabel PackageReferences => "Package References".ToGroupLabel();
