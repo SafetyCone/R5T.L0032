@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Xml.Linq;
 
 using R5T.F0000;
 using R5T.L0030.Extensions;
@@ -199,6 +200,78 @@ namespace R5T.L0032.Internal
                 grandChildName)
                 .Convert(element => element.ToPropertyGroupElement());
 
+            return output;
+        }
+
+        /// <summary>
+		/// Gets the property group element with the specified child element, if it exists.
+		/// </summary>
+		public WasFound<XElement> Has_PropertyGroup_WithChildElement(IProjectElement projectElement,
+            string propertyGroupChildElementName)
+        {
+            // Assume just one property group with the element name.
+            var wasFound = Instances.XElementOperator.HasChildWithChild_Single(
+                projectElement.Value,
+                Instances.ProjectElementNames.PropertyGroup.Value,
+                propertyGroupChildElementName);
+
+            return wasFound;
+        }
+
+        public WasFound<XElement> Has_PropertyGroup_ChildElement(IProjectElement projectElement,
+            string propertyGroupIdentifyingChildElementName,
+            string propertyGroupChildElementName)
+        {
+            var propertyGroupWithChildWasFound = this.Has_PropertyGroup_WithChildElement(
+                projectElement,
+                propertyGroupIdentifyingChildElementName);
+
+            if (!propertyGroupWithChildWasFound)
+            {
+                return WasFound.NotFound<XElement>();
+            }
+
+            var propertyGroup = propertyGroupWithChildWasFound.Result;
+
+            var child = propertyGroup.HasChild(propertyGroupChildElementName);
+            return child;
+        }
+
+        public WasFound<XElement> Has_PropertyGroup_ChildElement(IProjectElement projectElement,
+            string propertyGroupChildElementName)
+        {
+            var hasPropertyGroupChildElement = this.Has_PropertyGroup_ChildElement(projectElement,
+                propertyGroupChildElementName,
+                propertyGroupChildElementName);
+
+            return hasPropertyGroupChildElement;
+        }
+
+        public WasFound<string> Has_PropertyGroup_ChildElementValue(IProjectElement projectElement,
+            string propertyGroupChildElementName)
+        {
+            var hasPropertyGroupChildElement = this.Has_PropertyGroup_ChildElement(projectElement,
+                propertyGroupChildElementName);
+
+            var valueWasFound = hasPropertyGroupChildElement.Convert(x => x.Value);
+            return valueWasFound;
+        }
+
+        public WasFound<string> Has_MainPropertyGroupElementValue(
+            IProjectElement projectElement,
+            IElementName childPropertyElementName)
+        {
+            var hasMainPropertyGroup = this.Has_MainPropertyGroup(projectElement);
+            if(!hasMainPropertyGroup)
+            {
+                return WasFound.NotFound<string>();
+            }
+
+            var hasChildPropertyElement = Instances.XElementOperator.HasChild(
+                hasMainPropertyGroup.Result.Value,
+                childPropertyElementName.Value);
+
+            var output = hasChildPropertyElement.Convert(element => Instances.XElementOperator.Get_Value(element));
             return output;
         }
 

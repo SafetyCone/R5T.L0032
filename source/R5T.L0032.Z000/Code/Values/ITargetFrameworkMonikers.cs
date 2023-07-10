@@ -39,7 +39,7 @@ namespace R5T.L0032.Z000
         /// <summary>
         /// Useful if you want to allow old .NET Framework (4.6.2 and higher) support.
         /// </summary>
-        public ITargetFrameworkMoniker NET_Standard_2_0 => "netstandard2.0".ToTargetFrameworkMoniker();
+        public ITargetFrameworkMoniker NET_Standard2_0 => "netstandard2.0".ToTargetFrameworkMoniker();
         /// <summary>
         /// netstandard2.1
         /// </summary>

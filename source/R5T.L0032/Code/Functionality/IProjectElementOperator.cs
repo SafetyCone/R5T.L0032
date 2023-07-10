@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
+using System.Xml.Linq;
+using R5T.F0000;
 using R5T.F0120;
 using R5T.L0030.Extensions;
 using R5T.L0030.T000;
 using R5T.L0032.T000;
+using R5T.L0032.T000.Extensions;
 using R5T.T0132;
 using R5T.T0198;
 using R5T.T0202;
@@ -111,6 +113,25 @@ namespace R5T.L0032
                 description);
         }
 
+        public void Ensure_Has_GenerateDocumentationFile(
+            IProjectElement projectElement)
+        {
+            var hasGenerateDocumentationFileElement = this.Has_GenerateDocumentationFileElement(projectElement);
+            if(!hasGenerateDocumentationFileElement)
+            {
+                this.Set_GenerateDocumentationFile(projectElement);
+            }
+        }
+
+        public WasFound<XElement> Has_GenerateDocumentationFileElement(IProjectElement projectElement)
+        {
+            var output = Internal.Has_PropertyGroup_ChildElement(
+                projectElement,
+                Instances.ProjectElementNames.GenerateDocumentationFile.Value);
+
+            return output;
+        }
+
         public void Set_GenerateDocumentationFile(
             IProjectElement projectElement,
             bool value = true)
@@ -121,6 +142,28 @@ namespace R5T.L0032
                 projectElement,
                 Instances.ProjectElementNames.GenerateDocumentationFile,
                 valueString);
+        }
+
+        public void Ensure_Has_NoWarn_ElseSetNoWarnValues(
+            IProjectElement projectElement,
+            IEnumerable<IWarning> warnings)
+        {
+            var hasNoWarnElement = this.Has_NoWarnElement(projectElement);
+            if (!hasNoWarnElement)
+            {
+                this.Set_NoWarn(
+                    projectElement,
+                    warnings);
+            }
+        }
+
+        public WasFound<XElement> Has_NoWarnElement(IProjectElement projectElement)
+        {
+            var output = Internal.Has_PropertyGroup_ChildElement(
+                projectElement,
+                Instances.ProjectElementNames.NoWarn.Value);
+
+            return output;
         }
 
         public void Set_NoWarn(
@@ -223,6 +266,24 @@ namespace R5T.L0032
             Instances.ProjectXmlOperator.Set_IncludeAttributeValue(
                 supportedPlatformElement,
                 supportedPlatform.Value);
+        }
+
+        public WasFound<ITargetFrameworkMoniker> Has_TargetFrameworkElement(IProjectElement projectElement)
+        {
+            var output = Internal.Has_PropertyGroup_ChildElementValue(
+                projectElement,
+                Instances.ProjectElementNames.TargetFramework.Value)
+                .Convert(targetFramework => targetFramework.ToTargetFrameworkMoniker());
+
+            return output;
+        }
+
+        public ITargetFrameworkMoniker Get_TargetFramework(IProjectElement projectElement)
+        {
+            var output = this.Has_TargetFrameworkElement(projectElement)
+                .GetOrExceptionIfNotFound("No target framework element found.");
+
+            return output;
         }
 
         public void Set_TargetFramework(

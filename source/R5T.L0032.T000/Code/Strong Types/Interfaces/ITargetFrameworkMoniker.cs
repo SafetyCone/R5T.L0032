@@ -11,6 +11,7 @@ namespace R5T.L0032.T000
     /// See <see href="https://learn.microsoft.com/en-us/dotnet/standard/frameworks"/>.
     /// </summary>
     [StrongTypeMarker]
+    [Obsolete("Use R5T.T0218.ITargetFrameworkMoniker instead.")]
     public interface ITargetFrameworkMoniker : IStrongTypeMarker,
         ITyped<string>
     {

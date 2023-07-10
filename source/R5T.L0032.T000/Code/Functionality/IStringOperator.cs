@@ -59,6 +59,7 @@ namespace R5T.L0032.T000
         }
 
         /// <inheritdoc cref="ITargetFrameworkMoniker"/>
+        [Obsolete("Use R5T.T0218.ITargetFrameworkMoniker instead.")]
         public ITargetFrameworkMoniker ToTargetFrameworkMoniker(string value)
         {
             var output = new TargetFrameworkMoniker(value);
