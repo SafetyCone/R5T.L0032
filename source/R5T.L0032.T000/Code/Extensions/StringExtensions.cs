@@ -46,12 +46,5 @@ namespace R5T.L0032.T000.Extensions
         {
             return Instances.StringOperator.ToSupportedPlatform(value);
         }
-
-        /// <inheritdoc cref="IStringOperator.ToTargetFrameworkMoniker(string)"/>
-        [Obsolete("Use R5T.T0218.ITargetFrameworkMoniker instead.")]
-        public static ITargetFrameworkMoniker ToTargetFrameworkMoniker(this string value)
-        {
-            return Instances.StringOperator.ToTargetFrameworkMoniker(value);
-        }
     }
 }

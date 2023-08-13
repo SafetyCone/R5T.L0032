@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
+
 using R5T.F0000;
 using R5T.F0120;
 using R5T.L0030.Extensions;
 using R5T.L0030.T000;
 using R5T.L0032.T000;
+using R5T.L0032.T000.Extensions;
 using R5T.T0132;
 using R5T.T0198;
 using R5T.T0202;
@@ -42,6 +44,15 @@ namespace R5T.L0032
             Instances.ProjectXmlOperator.In_CustomPropertyGroupElementContext(
                 projectElement,
                 Instances.CustomPropertyGroupElementOperator.Ensure_HasPrivateGitHubRepositoryProperty);
+        }
+
+        public IProjectElement New_ProjectElement()
+        {
+            var projectElement = Instances.XmlOperator.New_Element(
+                Instances.ProjectElementNames.Project)
+                .ToProjectElement();
+
+            return projectElement;
         }
 
         public void Order_MainPropertyGroupNodes(IProjectElement projectElement)

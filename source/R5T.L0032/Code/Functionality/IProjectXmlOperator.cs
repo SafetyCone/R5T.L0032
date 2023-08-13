@@ -307,7 +307,7 @@ namespace R5T.L0032
             var hasPackageReferenceItemGroup = Internal.Has_PackageReferenceItemGroup(projectElement);
             if(!hasPackageReferenceItemGroup)
             {
-                return Instances.ArrayOperator.Get_NewEmpty<SimplePackageReference>();
+                return Instances.ArrayOperator.New_Empty<SimplePackageReference>();
             }
 
             var packageReferenceItemGroup = hasPackageReferenceItemGroup.Result;
@@ -448,15 +448,6 @@ namespace R5T.L0032
             return Instances.ActionOperator.Run(
                 customPropertyGroupElementAction,
                 customPropertyGroupElement);
-        }
-
-        public IProjectElement New_ProjectElement()
-        {
-            var projectElement = Instances.XmlOperator.New_Element(
-                Instances.ProjectElementNames.Project)
-                .ToProjectElement();
-
-            return projectElement;
         }
 
         /// <summary>
