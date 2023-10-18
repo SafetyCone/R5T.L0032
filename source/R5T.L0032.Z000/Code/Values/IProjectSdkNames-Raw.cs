@@ -8,33 +8,25 @@ using R5T.L0032.T000.Extensions;
 
 namespace R5T.L0032.Z000.Raw
 {
-    /// <summary>
-    /// See: <see href="https://learn.microsoft.com/en-us/dotnet/core/project-sdk/overview"/>
-    /// </summary>
+    /// <inheritdoc cref="Z000.IProjectSdkNames"/>
     [ValuesMarker]
     public partial interface IProjectSdkNames : IValuesMarker
     {
-        /// <summary>
-		/// Microsoft.NET.Sdk: the base SDK.
-		/// </summary>
-		public IProjectSdkName Microsoft_NET_Sdk => "Microsoft.NET.Sdk".ToProjectSdkName();
+#pragma warning disable IDE1006 // Naming Styles
+        private static Platform.IProjectSdkNames _Platform => Platform.ProjectSdkNames.Instance;
+#pragma warning restore IDE1006 // Naming Styles
 
-        /// <summary>
-        /// Microsoft.NET.Sdk.Web: the web SDK.
-        /// </summary>
-        public IProjectSdkName Microsoft_NET_Sdk_Web => "Microsoft.NET.Sdk.Web".ToProjectSdkName();
 
-        /// <summary>
-        /// Microsoft.NET.Sdk.BlazorWebAssembly: the Blazor WebAssembly SDK.
-        /// </summary>
-		public const string Microsoft_NET_Sdk_BlazorWebAssembly_Constant = "Microsoft.NET.Sdk.BlazorWebAssembly";
+        /// <inheritdoc cref="Platform.IProjectSdkNames.Microsoft_NET_Sdk"/>
+        public IProjectSdkName Microsoft_NET_Sdk => _Platform.Microsoft_NET_Sdk.ToProjectSdkName();
 
-        /// <inheritdoc cref="Microsoft_NET_Sdk_BlazorWebAssembly_Constant"/>
-        public IProjectSdkName Microsoft_NET_Sdk_BlazorWebAssembly => IProjectSdkNames.Microsoft_NET_Sdk_BlazorWebAssembly_Constant.ToProjectSdkName();
+        /// <inheritdoc cref="Platform.IProjectSdkNames.Microsoft_NET_Sdk_Web"/>
+        public IProjectSdkName Microsoft_NET_Sdk_Web => _Platform.Microsoft_NET_Sdk_Web.ToProjectSdkName();
 
-        /// <summary>
-        /// Microsoft.NET.Sdk.Razor: the Razor SDK.
-        /// </summary>
-        public IProjectSdkName Microsoft_NET_Sdk_Razor => "Microsoft.NET.Sdk.Razor".ToProjectSdkName();
+        /// <inheritdoc cref="Platform.IProjectSdkNames.Microsoft_NET_Sdk_BlazorWebAssembly"/>
+        public IProjectSdkName Microsoft_NET_Sdk_BlazorWebAssembly => _Platform.Microsoft_NET_Sdk_BlazorWebAssembly.ToProjectSdkName();
+
+        /// <inheritdoc cref="Platform.IProjectSdkNames.Microsoft_NET_Sdk_Razor"/>
+        public IProjectSdkName Microsoft_NET_Sdk_Razor => _Platform.Microsoft_NET_Sdk_Razor.ToProjectSdkName();
     }
 }
