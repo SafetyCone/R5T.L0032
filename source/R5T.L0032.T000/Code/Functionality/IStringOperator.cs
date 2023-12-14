@@ -1,6 +1,5 @@
 using System;
 
-using R5T.F0120.Extensions;
 using R5T.T0132;
 
 
@@ -55,14 +54,6 @@ namespace R5T.L0032.T000
         public ISupportedPlatform ToSupportedPlatform(string value)
         {
             var output = new SupportedPlatform(value);
-            return output;
-        }
-
-        /// <inheritdoc cref="ITargetFrameworkMoniker"/>
-        [Obsolete("Use R5T.T0218.ITargetFrameworkMoniker instead.")]
-        public ITargetFrameworkMoniker ToTargetFrameworkMoniker(string value)
-        {
-            var output = new TargetFrameworkMoniker(value);
             return output;
         }
     }

@@ -10,29 +10,24 @@ namespace R5T.L0032.Z000
     [ValuesMarker]
     public partial interface IOutputTypes : IValuesMarker
     {
-        /// <summary>
-        /// Library - The default value if not presen in the project.
-        /// </summary>
+#pragma warning disable IDE1006 // Naming Styles
+        public Z001.IOutputTypes _Platform => Z001.OutputTypes.Instance;
+#pragma warning restore IDE1006 // Naming Styles
+
+
+        /// <inheritdoc cref="Z001.IOutputTypes.Default"/>
         public IOutputType Default => this.Library;
 
-        /// <summary>
-        /// Exe - Creates a console application.
-        /// </summary>
-        public IOutputType Exe => "Exe".ToOutputType();
+        /// <inheritdoc cref="Z001.IOutputTypes.Exe"/>
+        public IOutputType Exe => _Platform.Exe.ToOutputType();
 
-        /// <summary>
-        /// Library - Creates a code library.
-        /// </summary>
-        public IOutputType Library => "Library".ToOutputType();
+        /// <inheritdoc cref="Z001.IOutputTypes.Library"/>
+        public IOutputType Library => _Platform.Library.ToOutputType();
 
-        /// <summary>
-        /// Module - Creates a module.
-        /// </summary>
-        public IOutputType Module => "Module".ToOutputType();
+        /// <inheritdoc cref="Z001.IOutputTypes.Module"/>
+        public IOutputType Module => _Platform.Module.ToOutputType();
 
-        /// <summary>
-        /// WinExe - Creates a module.
-        /// </summary>
-        public IOutputType WinExe => "WinExe".ToOutputType();
+        /// <inheritdoc cref="Z001.IOutputTypes.WinExe"/>
+        public IOutputType WinExe => _Platform.WinExe.ToOutputType();
     }
 }

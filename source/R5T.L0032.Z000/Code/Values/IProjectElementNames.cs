@@ -11,7 +11,7 @@ namespace R5T.L0032.Z000
     /// </summary>
     [ValuesMarker]
     public partial interface IProjectElementNames : IValuesMarker,
-        N001.IProjectElementNames,
+        IProjectNodeNames,
         ICustomProjectElementNames
     {
     }

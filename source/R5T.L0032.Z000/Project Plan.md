@@ -1,2 +1,2 @@
 # R5T.L0032.Z000
-Values for project-related XElements.
+Common values for Visual Studio project-related XElements.

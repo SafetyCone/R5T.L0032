@@ -12,7 +12,7 @@ using R5T.T0172;
 using R5T.T0205;
 using R5T.T0206;
 
-using R5T.L0032.Extensions;
+using R5T.L0032.F003.Extensions;
 using R5T.L0032.T000;
 using R5T.L0032.T000.Extensions;
 
@@ -475,12 +475,12 @@ namespace R5T.L0032.Internal
             element.SetAttributeValue(Instances.ProjectElementNames.Include.Value, comReference.Name);
 
             element.Add_Child(Instances.ProjectElementNames.WrapperTool, comReference.WrapperTool);
-            element.Add_Child(Instances.ProjectElementNames.VersionMinor, comReference.Version_Minor.ToString_ForProjectXml());
-            element.Add_Child(Instances.ProjectElementNames.VersionMajor, comReference.Version_Major.ToString_ForProjectXml());
-            element.Add_Child(Instances.ProjectElementNames.Guid, comReference.Guid.ToString_ForCOMReference());
-            element.Add_Child(Instances.ProjectElementNames.Lcid, comReference.Lcid.ToString_ForProjectXml());
-            element.Add_Child(Instances.ProjectElementNames.Isolated, comReference.Isolated.ToString_ForProjectXml());
-            element.Add_Child(Instances.ProjectElementNames.EmbedInteropTypes, comReference.EmbedInteropTypes.ToString_ForProjectXml());
+            element.Add_Child(Instances.ProjectElementNames.VersionMinor, comReference.Version_Minor.To_String_ForProjectXml());
+            element.Add_Child(Instances.ProjectElementNames.VersionMajor, comReference.Version_Major.To_String_ForProjectXml());
+            element.Add_Child(Instances.ProjectElementNames.Guid, comReference.Guid.To_String_ForCOMReference());
+            element.Add_Child(Instances.ProjectElementNames.Lcid, comReference.Lcid.To_String_ForProjectXml());
+            element.Add_Child(Instances.ProjectElementNames.Isolated, comReference.Isolated.To_String_ForProjectXml());
+            element.Add_Child(Instances.ProjectElementNames.EmbedInteropTypes, comReference.EmbedInteropTypes.To_String_ForProjectXml());
 
             var output = element.ToCOMReferenceElement();
             return output;

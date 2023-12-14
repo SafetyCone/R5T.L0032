@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 
 using R5T.N0000;
+using R5T.N0003;
 
-using R5T.F0120;
 using R5T.L0030.Extensions;
 using R5T.L0030.T000;
 using R5T.L0032.T000;
@@ -49,8 +49,7 @@ namespace R5T.L0032
 
         public IProjectElement New_ProjectElement()
         {
-            var projectElement = Instances.XmlOperator.New_Element(
-                Instances.ProjectElementNames.Project)
+            var projectElement = Instances.ProjectXElementOperator.New_ProjectXElement()
                 .ToProjectElement();
 
             return projectElement;
@@ -150,7 +149,7 @@ namespace R5T.L0032
             IProjectElement projectElement,
             bool value = true)
         {
-            var valueString = Instances.BooleanOperator.ToString_ForProjectXml(value);
+            var valueString = Instances.BooleanOperator.To_String_ForProjectXml(value);
 
             Internal.Set_MainPropertyGroupElementValue(
                 projectElement,
@@ -251,7 +250,7 @@ namespace R5T.L0032
             IProjectElement projectElement,
             bool requireLicenseAcceptance)
         {
-            var value = Instances.BooleanOperator.ToString_ForProjectXml(requireLicenseAcceptance);
+            var value = Instances.BooleanOperator.To_String_ForProjectXml(requireLicenseAcceptance);
 
             this.Set_PackagePropertyGroupElementValue(
                 projectElement,
