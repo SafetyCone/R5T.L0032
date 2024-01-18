@@ -1,10 +1,11 @@
 using System;
 using System.Xml.Linq;
 
-using R5T.L0032.T000;
-using R5T.N0000;
 using R5T.T0131;
 using R5T.T0218;
+using R5T.T0221;
+
+using R5T.L0032.T000;
 
 
 namespace R5T.L0032.F001
@@ -67,11 +68,21 @@ namespace R5T.L0032.F001
                 propertyGroupElement,
                 outputType);
 
+        public Action<XElement> Set_NoDefaultLaunchSettingsFile =>
+            propertyGroupElement => Instances.PropertyGroupXElementOperator.Set_NoDefaultLaunchSettingsFile(
+                propertyGroupElement);
+
         /// <inheritdoc cref="Z001.IOutputTypes.Exe"/>
         public Action<XElement> Set_OutputType_Exe =>
             propertyGroupElement => Instances.PropertyGroupXElementOperator.Set_OutputType(
                 propertyGroupElement,
                 Instances.OutputTypes.Exe);
+
+        /// <inheritdoc cref="Z001.IValues.Default"/>
+        public Action<XElement> Set_StaticWebAssetProjectMode_Default =>
+            propertyGroupElement => Instances.PropertyGroupXElementOperator.Set_StaticWebAssetProjectMode(
+                propertyGroupElement,
+                Instances.Values.Default);
 
         public Action<XElement> Set_TargetFramework(ITargetFrameworkMoniker targetFrameworkMoniker) =>
             propertyGroupElement => Instances.PropertyGroupXElementOperator.Set_TargetFramework(
@@ -110,6 +121,12 @@ namespace R5T.L0032.F001
             propertyGroupElement => Instances.PropertyGroupXElementOperator.Set_TargetFramework(
                 propertyGroupElement,
                 Instances.TargetFrameworkMonikers.Default);
+
+        /// <inheritdoc cref="Z0057.ITargetFrameworkMonikers.NET_8"/>
+        public Action<XElement> Set_TargetFramework_Net8 =>
+            propertyGroupElement => Instances.PropertyGroupXElementOperator.Set_TargetFramework(
+                propertyGroupElement,
+                Instances.TargetFrameworkMonikers.NET_8);
 
         public Action<XElement> Set_Version(string versionString) =>
             propertyGroupElement => Instances.PropertyGroupXElementOperator.Set_Version(

@@ -25,7 +25,7 @@ namespace R5T.L0032.F001
         public static IPropertyGroupXElementOperator PropertyGroupXElementOperator => F001.PropertyGroupXElementOperator.Instance;
         public static L0066.IStringOperator StringOperator => L0066.StringOperator.Instance;
         public static Z0057.ITargetFrameworkMonikers TargetFrameworkMonikers => Z0057.TargetFrameworkMonikers.Instance;
-        public static F003.IValues Values => F003.Values.Instance;
+        public static IValues Values => F001.Values.Instance;
         public static F003.IVersionOperator VersionOperator => F003.VersionOperator.Instance;
         public static L0066.IVersions Versions => L0066.Versions.Instance;
         public static L0066.IXAttributeOperator XAttributeOperator => L0066.XAttributeOperator.Instance;

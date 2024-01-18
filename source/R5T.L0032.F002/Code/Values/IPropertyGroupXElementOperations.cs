@@ -24,5 +24,8 @@ namespace R5T.L0032.F002
 
         public Action<XElement> Set_Label_Package =>
             this.Set_Label(Instances.GroupLabels.Package);
+
+        public Action<XElement> Set_Label_PackageReferences =>
+            this.Set_Label(Instances.GroupLabels.PackageReferences);
     }
 }

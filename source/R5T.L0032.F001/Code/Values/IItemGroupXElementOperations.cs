@@ -14,42 +14,48 @@ namespace R5T.L0032.F001
     public partial interface IItemGroupXElementOperations : IValuesMarker
     {
         public Action<XElement> Add_COMReference(COMReference comReference) =>
-            propertyGroupElement => Instances.ItemGroupXElementOperator.Add_COMReference(
-                propertyGroupElement,
+            itemGroupElement => Instances.ItemGroupXElementOperator.Add_COMReference(
+                itemGroupElement,
                 comReference);
+
+        public Action<XElement> Add_PackageReference(
+            PackageReference packageReference) =>
+            itemGroupElement => Instances.ItemGroupXElementOperator.Add_PackageReference(
+                itemGroupElement,
+                packageReference);
 
         public Action<XElement> Add_ProjectReference(
             string projectFilePath,
             string referenceProjectFilePath) =>
-            propertyGroupElement => Instances.ItemGroupXElementOperator.Add_ProjectReference(
-                propertyGroupElement,
+            itemGroupElement => Instances.ItemGroupXElementOperator.Add_ProjectReference(
+                itemGroupElement,
                 projectFilePath,
                 referenceProjectFilePath);
 
         public Action<XElement> Add_ProjectReferences(
             string projectFilePath,
             IEnumerable<string> referenceProjectFilePaths) =>
-            propertyGroupElement => Instances.ItemGroupXElementOperator.Add_ProjectReferences(
-                propertyGroupElement,
+            itemGroupElement => Instances.ItemGroupXElementOperator.Add_ProjectReferences(
+                itemGroupElement,
                 projectFilePath,
                 referenceProjectFilePaths);
 
         public Action<XElement> Add_ProjectReferences(
             string projectFilePath,
             params string[] referenceProjectFilePaths) =>
-            propertyGroupElement => Instances.ItemGroupXElementOperator.Add_ProjectReferences(
-                propertyGroupElement,
+            itemGroupElement => Instances.ItemGroupXElementOperator.Add_ProjectReferences(
+                itemGroupElement,
                 projectFilePath,
                 referenceProjectFilePaths);
 
         public Action<XElement> Set_Label(string label) =>
-            propertyGroupElement => Instances.ItemGroupXElementOperator.Set_Label(
-                propertyGroupElement,
+            itemGroupElement => Instances.ItemGroupXElementOperator.Set_Label(
+                itemGroupElement,
                 label);
 
         public Action<XElement> Set_Label(IGroupLabel groupLabel) =>
-            propertyGroupElement => Instances.ItemGroupXElementOperator.Set_Label(
-                propertyGroupElement,
+            itemGroupElement => Instances.ItemGroupXElementOperator.Set_Label(
+                itemGroupElement,
                 groupLabel);
     }
 }

@@ -48,5 +48,11 @@ namespace R5T.L0032.F001
             projectElement => Instances.ProjectXElementOperator.Set_Sdk(
                 projectElement,
                 Instances.ProjectSdkNames.NET);
+
+        /// <inheritdoc cref="Z001.IProjectSdkNames.BlazorWebAssembly"/>
+        public Action<XElement> Set_SDK_BlazorWebAssembly =>
+            projectElement => Instances.ProjectXElementOperator.Set_Sdk(
+                projectElement,
+                Instances.ProjectSdkNames.BlazorWebAssembly);
     }
 }

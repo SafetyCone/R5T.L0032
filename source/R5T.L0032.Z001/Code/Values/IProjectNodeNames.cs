@@ -29,6 +29,11 @@ namespace R5T.L0032.Z001
         public string Label => "Label";
         public string Lcid => "Lcid";
         public string None => "None";
+
+        /// <summary>
+        /// <para><value>NoDefaultLaunchSettingsFile</value></para>
+        /// </summary>
+        public string NoDefaultLaunchSettingsFile => "NoDefaultLaunchSettingsFile";
         public string NoWarn => "NoWarn";
         public string Nullable => "Nullable";
         public string OutputType => "OutputType";
@@ -43,6 +48,11 @@ namespace R5T.L0032.Z001
         public string RepositoryUrl => "RepositoryUrl";
         public string RootNamespace => "RootNamespace";
         public string Sdk => "Sdk";
+
+        /// <summary>
+        /// <para><value>StaticWebAssetProjectMode</value></para>
+        /// </summary>
+        public string StaticWebAssetProjectMode => "StaticWebAssetProjectMode";
         public string SupportedPlatform => "SupportedPlatform";
         public string TargetFramework => "TargetFramework";
         public string TargetFrameworkVersion => "TargetFrameworkVersion";
