@@ -14,7 +14,7 @@ namespace R5T.L0032
     {
         public IProjectDirectoryPath Get_ProjectDirectoryPath(IProjectFilePath projectFilePath)
         {
-            var projectDirectoryPath = Instances.PathOperator.GetParentDirectoryPath_ForFile(
+            var projectDirectoryPath = Instances.PathOperator.Get_ParentDirectoryPath_ForFile(
                 projectFilePath.Value)
                 .ToProjectDirectoryPath();
 
@@ -30,7 +30,7 @@ namespace R5T.L0032
             var output = projectReferenceFilePaths
                 .Select(projectReferenceFilePath =>
                     (projectReferenceFilePath,
-                    Instances.PathOperator.GetRelativePath(
+                    Instances.PathOperator.Get_RelativePath(
                         projectDirectoryPath.Value,
                         projectReferenceFilePath.Value)
                         .ToProjectDirectoryRelativePath()))

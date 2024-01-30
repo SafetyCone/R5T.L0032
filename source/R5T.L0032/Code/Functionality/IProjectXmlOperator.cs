@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 
 using R5T.L0030.Extensions;
+using R5T.L0089.T000;
 using R5T.T0132;
 using R5T.T0172;
-using R5T.T0205;
 using R5T.T0206;
-using R5T.T0221;
 
 using R5T.L0032.T000;
 using R5T.L0032.T000.Extensions;
@@ -333,7 +332,7 @@ namespace R5T.L0032
         {
             var hasIncludeAttributeValue = this.Has_IncludeAttributeValue(element);
 
-            var output = Instances.WasFoundOperator.ResultOrExceptionIfNotFound(hasIncludeAttributeValue);
+            var output = Instances.WasFoundOperator.Get_Result_OrExceptionIfNotFound(hasIncludeAttributeValue);
             return output;
         }
 

@@ -2,8 +2,8 @@ using System;
 using System.Xml.Linq;
 
 using R5T.L0030.Extensions;
+using R5T.L0089.T000;
 using R5T.T0132;
-using R5T.T0221;
 
 using R5T.L0032.T000;
 
@@ -55,7 +55,7 @@ namespace R5T.L0032
         {
             var hasLabel = this.Has_Label(labeled);
 
-            var output = Instances.WasFoundOperator.ResultOrExceptionIfNotFound(hasLabel);
+            var output = Instances.WasFoundOperator.Get_Result_OrExceptionIfNotFound(hasLabel);
             return output;
         }
 

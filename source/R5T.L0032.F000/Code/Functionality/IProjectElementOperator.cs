@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 
 using R5T.L0030.Extensions;
+using R5T.L0089.T000;
 using R5T.T0132;
 using R5T.T0172;
 using R5T.T0210;
 using R5T.T0210.Extensions;
-using R5T.T0221;
 
 using R5T.L0032.T000;
 using R5T.L0032.T000.Extensions;
@@ -56,7 +56,7 @@ namespace R5T.L0032.F000
         {
             var wasFound = this.Has_ProjectElement(projectDocument);
 
-            return wasFound.ResultOrExceptionIfNotFound("No project element found.");
+            return wasFound.Get_Result_OrExceptionIfNotFound("No project element found.");
         }
 
         public WasFound<IProjectElement> Has_ProjectElement(XDocument projectDocument)

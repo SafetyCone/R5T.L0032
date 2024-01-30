@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
+using R5T.L0030.Extensions;
+using R5T.L0030.T000;
+using R5T.L0089.T000;
 using R5T.N0003;
 using R5T.T0132;
 using R5T.T0198;
 using R5T.T0202;
 using R5T.T0218.Extensions;
-using R5T.T0221;
-using R5T.L0030.Extensions;
-using R5T.L0030.T000;
 
 using R5T.L0032.T000;
 using R5T.L0032.T000.Extensions;
@@ -294,7 +294,7 @@ namespace R5T.L0032
         public ITargetFrameworkMoniker Get_TargetFramework(IProjectElement projectElement)
         {
             var output = this.Has_TargetFrameworkElement(projectElement)
-                .GetOrExceptionIfNotFound("No target framework element found.");
+                .Get_Result_OrExceptionIfNotFound("No target framework element found.");
 
             return output;
         }
