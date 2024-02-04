@@ -17,12 +17,12 @@ namespace R5T.L0032.T000
         /// <summary>
         /// Disabled - the default value.
         /// </summary>
-        Disabled = 0,
+        Disable = 0,
 
         /// <summary>
         /// Enabled
         /// </summary>
-        Enabled,
+        Enable,
 
         /// <summary>
         /// Warnings

@@ -21,7 +21,7 @@ namespace R5T.L0032.F001
         public Action<XElement> Enable_Nullable =>
             propertyGroupElement => Instances.PropertyGroupXElementOperator.Set_Nullable(
                 propertyGroupElement,
-                T000.Nullable.Enabled);
+                T000.Nullable.Enable);
 
         public Action<XElement> Set_Authors(params string[] authors) =>
             propertyGroupElement => Instances.PropertyGroupXElementOperator.Set_Authors(

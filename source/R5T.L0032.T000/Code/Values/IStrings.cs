@@ -14,14 +14,14 @@ namespace R5T.L0032.T000
         public string Annotations => "annotations";
 
         /// <summary>
-        /// <para><value>"disabled"</value></para>
+        /// <para><value>"disable"</value></para>
         /// </summary>
-        public string Disabled => "disabled";
+        public string Disable => "disable";
 
         /// <summary>
-        /// <para><value>"enabled"</value></para>
+        /// <para><value>"enable"</value></para>
         /// </summary>
-        public string Enabled => "enabled";
+        public string Enable => "enable";
 
         /// <summary>
         /// <para><value>"warnings"</value></para>

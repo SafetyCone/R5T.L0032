@@ -13,8 +13,8 @@ namespace R5T.L0032.T000
             var output = nullable switch
             {
                 Nullable.Annotations => Instances.Strings.Annotations,
-                Nullable.Disabled => Instances.Strings.Disabled,
-                Nullable.Enabled => Instances.Strings.Enabled,
+                Nullable.Disable => Instances.Strings.Disable,
+                Nullable.Enable => Instances.Strings.Enable,
                 Nullable.Warnings => Instances.Strings.Warnings,
                 _ => throw Instances.SwitchOperator.Get_UnrecognizedSwitchValueException()
             };

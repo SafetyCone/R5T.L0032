@@ -19,7 +19,7 @@ No other project references are allowed to maintain dependence on strictly-platf
 ## How this library works
 
 The IProjectXElementsOperation contains *all* operations first.
-	This was done to allow a single intellisense listing of *all* operations related to project XElements, which is desirable because it makes finding *all* project XElements easy.
+	This was done to allow a single intellisense listing of *all* operations related to project XElements, which is desirable because it makes finding *all* project XElement operations easy.
 
 Those operations are then "retailed" via IProjectXElementOperator, IPropertyGroupXElementOperator, IItemGroupXElementOperator, etc.
 	This was done to allow context-specific intellisense listings of context-specific operations related to project XElements, which is desirable because it makes it easy to find the right project XElement operation in a given context.
