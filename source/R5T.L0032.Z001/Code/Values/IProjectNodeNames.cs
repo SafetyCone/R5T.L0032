@@ -47,6 +47,10 @@ namespace R5T.L0032.Z001
         public string PropertyGroup => "PropertyGroup";
         public string RepositoryUrl => "RepositoryUrl";
         public string RootNamespace => "RootNamespace";
+
+        /// <summary>
+        /// <para><value>Sdk</value></para>
+        /// </summary>
         public string Sdk => "Sdk";
 
         /// <summary>

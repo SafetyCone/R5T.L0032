@@ -14,6 +14,10 @@ namespace R5T.L0032.Z002.Platform
         public string Main => "Main";
         public string Package => "Package";
         public string PackageReferences => "Package References";
+
+        /// <summary>
+        /// <para><value>"Project References"</value></para>
+        /// </summary>
         public string ProjectReferences => "Project References";
     }
 }

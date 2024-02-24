@@ -10,7 +10,7 @@ namespace R5T.L0032.F004
 {
     /// <summary>
     /// Contains XElement-level operations on only the project XElement.
-    /// For operations all of the project XElement's XElement, and not just the project XElement, see (the closely named) <see cref="IProjectXElementsOperator"/>.
+    /// For operations on all of the XElement descendants of the project XElement, and not just the project XElement, see (the regrettably closely named) <see cref="IProjectXElementsOperator"/>.
     /// </summary>
     [FunctionalityMarker]
     public partial interface IProjectXElementOperator : IFunctionalityMarker

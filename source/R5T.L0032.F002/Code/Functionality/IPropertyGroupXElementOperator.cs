@@ -19,5 +19,19 @@ namespace R5T.L0032.F002
                 propertyGroupElement,
                 copyright);
         }
+
+        public XAttribute Set_Label_Main(XElement propertyGroupElement)
+        {
+            return this.Set_Label(
+                propertyGroupElement,
+                Instances.GroupLabels.Main);
+        }
+
+        public XAttribute Set_Label_Package(XElement propertyGroupElement)
+        {
+            return this.Set_Label(
+                propertyGroupElement,
+                Instances.GroupLabels.Package);
+        }
     }
 }

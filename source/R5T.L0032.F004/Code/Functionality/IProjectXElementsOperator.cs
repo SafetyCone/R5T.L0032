@@ -39,6 +39,10 @@ namespace R5T.L0032.F004
             return labelAttribute;
         }
 
+        /// <summary>
+        /// <inheritdoc cref="L0066.IXElementOperator.Acquire_Attribute(XElement, string)" path="/summary"/>
+        /// <inheritdoc cref="Z001.IProjectNodeNames.Sdk" path="/summary"/>
+        /// </summary>
         public XAttribute Acquire_SdkAttribute(XElement projectElement)
         {
             var sdkAttribute = Instances.XElementOperator.Acquire_Attribute(
@@ -205,6 +209,24 @@ namespace R5T.L0032.F004
                 this.New_PropertyGroupXElement);
 
             return propertyGroupXElement;
+        }
+
+        public void Append_ItemGroupXElement(
+            XElement projectElement,
+            XElement itemGroupElement)
+        {
+            Instances.XElementOperator.Append_Child(
+                projectElement,
+                itemGroupElement);
+        }
+
+        public void Append_PropertyGroupXElement(
+            XElement projectElement,
+            XElement propertyGroupElement)
+        {
+            Instances.XElementOperator.Append_Child(
+                projectElement,
+                propertyGroupElement);
         }
 
         public XElement Append_NewItemGroupXElement(XElement projectElement)
@@ -510,6 +532,18 @@ namespace R5T.L0032.F004
             return noDefaultLaunchSettingsFileElement;
         }
 
+        public XElement Set_NoWarn(
+            XElement propertyGroupElement,
+            string warningNumbersList)
+        {
+            var noWarnElement = Instances.XElementOperator.Set_ChildValue(
+                propertyGroupElement,
+                Instances.ProjectNodeNames.NoWarn,
+                warningNumbersList);
+
+            return noWarnElement;
+        }
+
         public XElement Set_Nullable(
             XElement propertyGroupElement,
             string nullableValue)
@@ -572,6 +606,12 @@ namespace R5T.L0032.F004
             return repositoryUrlElement;
         }
 
+        /// <summary>
+        /// Sets the project element's SDK value.
+        /// </summary>
+        /// <remarks>
+        /// For values of interest, see R5T.L0032.Z001.
+        /// </remarks>
         public XAttribute Set_Sdk(
             XElement projectElement,
             string projectSdkName)

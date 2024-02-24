@@ -7,7 +7,8 @@ namespace R5T.L0032
 {
     [FunctionalityMarker]
     public partial interface IProjectXElementOperator : IFunctionalityMarker,
-        F001.IProjectXElementOperator
+        F001.IProjectXElementOperator,
+        F004.IProjectXElementOperator
     {
 
     }

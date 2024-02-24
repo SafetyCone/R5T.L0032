@@ -125,6 +125,17 @@ namespace R5T.L0032.F004
             return output;
         }
 
+        public XElement Set_NoWarn(
+            XElement propertyGroupElement,
+            string warningNumbersList)
+        {
+            var output = Instances.ProjectXElementsOperator.Set_NoWarn(
+                propertyGroupElement,
+                warningNumbersList);
+
+            return output;
+        }
+
         public XElement Set_Nullable(
             XElement propertyGroupElement,
             string nullableValue)

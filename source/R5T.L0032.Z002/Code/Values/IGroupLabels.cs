@@ -27,6 +27,8 @@ namespace R5T.L0032.Z002
         public IGroupLabel Main => _Platform.Main.ToGroupLabel();
         public IGroupLabel Package => _Platform.Package.ToGroupLabel();
         public IGroupLabel PackageReferences => _Platform.PackageReferences.ToGroupLabel();
+
+        /// <inheritdoc cref="Platform.IGroupLabels.ProjectReferences"/>
         public IGroupLabel ProjectReferences => _Platform.ProjectReferences.ToGroupLabel();
     }
 }

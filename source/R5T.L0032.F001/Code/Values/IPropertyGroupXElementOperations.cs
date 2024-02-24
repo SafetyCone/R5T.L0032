@@ -72,6 +72,11 @@ namespace R5T.L0032.F001
             propertyGroupElement => Instances.PropertyGroupXElementOperator.Set_NoDefaultLaunchSettingsFile(
                 propertyGroupElement);
 
+        public Action<XElement> Set_NoWarn(string warningNumbersList) =>
+            propertyGroupElement => Instances.PropertyGroupXElementOperator.Set_NoWarn(
+                propertyGroupElement,
+                warningNumbersList);
+
         /// <inheritdoc cref="Z001.IOutputTypes.Exe"/>
         public Action<XElement> Set_OutputType_Exe =>
             propertyGroupElement => Instances.PropertyGroupXElementOperator.Set_OutputType(

@@ -54,6 +54,20 @@ namespace R5T.L0032.F001
                 outputType.Value);
         }
 
+        public XElement Set_OutputType_Exe(XElement propertyGroupElement)
+        {
+            return this.Set_OutputType(
+                propertyGroupElement,
+                Instances.OutputTypes.Exe);
+        }
+
+        public XElement Set_OutputType_Library(XElement propertyGroupElement)
+        {
+            return this.Set_OutputType(
+                propertyGroupElement,
+                Instances.OutputTypes.Library);
+        }
+
         public XElement Set_TargetFramework(
             XElement propertyGroupElement,
             ITargetFrameworkMoniker targetFrameworkMoniker)
