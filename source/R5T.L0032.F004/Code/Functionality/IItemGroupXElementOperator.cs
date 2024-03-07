@@ -22,6 +22,18 @@ namespace R5T.L0032.F004
             return output;
         }
 
+        public XElement Add_Folder(
+            XElement itemGroupElement,
+            string relativePath)
+        {
+            var output = Instances.ProjectXElementsOperator.Add_Folder(
+                itemGroupElement,
+                relativePath);
+
+            return output;
+        }
+
+        /// <inheritdoc cref="IProjectXElementsOperator.Add_PackageReference(XElement, PackageReference)"/>
         public XElement Add_PackageReference(
             XElement itemGroupElement,
             PackageReference packageReference)

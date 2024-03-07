@@ -20,6 +20,11 @@ namespace R5T.L0032.Z001
         public string Description => "Description";
         public string EmbedInteropTypes => "EmbedInteropTypes";
         public string FrameworkReference => "FrameworkReference";
+
+        /// <summary>
+        /// <para><value>Folder</value></para>
+        /// </summary>
+        public string Folder => "Folder";
         public string GenerateDocumentationFile => "GenerateDocumentationFile";
         public string Guid => "Guid";
         public string ImplicitUsings => "ImplicitUsings";

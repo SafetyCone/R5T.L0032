@@ -96,6 +96,22 @@ namespace R5T.L0032.F004
             return output;
         }
 
+        public XElement Add_Folder(
+            XElement itemGroupElement,
+            string relativePath)
+        {
+            var packageReferenceElement = this.Get_FolderElement(relativePath);
+
+            Instances.XElementOperator.Add_Child(
+                itemGroupElement,
+                packageReferenceElement);
+
+            return packageReferenceElement;
+        }
+
+        /// <summary>
+        /// Adds a package reference, returning the package reference element.
+        /// </summary>
         public XElement Add_PackageReference(
             XElement itemGroupElement,
             PackageReference packageReference)
@@ -278,6 +294,17 @@ namespace R5T.L0032.F004
             return comReferenceElement;
         }
 
+        public XElement Get_FolderElement(string relativePath)
+        {
+            var packageReferenceElement = this.New_FolderElement();
+
+            this.Set_Include(
+                packageReferenceElement,
+                relativePath);
+
+            return packageReferenceElement;
+        }
+
         public XElement Get_PackageReferenceElement(PackageReference packageReference)
         {
             var packageReferenceElement = this.New_PackageReferenceElement();
@@ -335,6 +362,14 @@ namespace R5T.L0032.F004
         {
             var comReferenceElement = Instances.XElementOperator.New(
                 Instances.ProjectNodeNames.COMReference);
+
+            return comReferenceElement;
+        }
+
+        public XElement New_FolderElement()
+        {
+            var comReferenceElement = Instances.XElementOperator.New(
+                Instances.ProjectNodeNames.Folder);
 
             return comReferenceElement;
         }
