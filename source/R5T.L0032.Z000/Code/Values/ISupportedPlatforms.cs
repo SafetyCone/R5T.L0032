@@ -16,33 +16,33 @@ namespace R5T.L0032.Z000
     public partial interface ISupportedPlatforms : IValuesMarker
     {
         /// <summary>
-        /// "android"
+        /// <para><value>"android"</value></para>
         /// </summary>
         public ISupportedPlatform Android => "android".ToSupportedPlatform();
 
         /// <summary>
-        /// "ios"
+        /// <para><value>"ios"</value></para>
         /// </summary>
         public ISupportedPlatform IOS => "ios".ToSupportedPlatform();
 
         /// <summary>
-        /// "linux"
+        /// <para><value>"linux"</value></para>
         /// </summary>
         public ISupportedPlatform Linux => "linux".ToSupportedPlatform();
 
         /// <summary>
-        /// "macos"
+        /// <para><value>"macos"</value></para>
         /// </summary>
         public ISupportedPlatform Macos => "macos".ToSupportedPlatform();
 
         /// <summary>
-        /// "windows"
+        /// <para><value>"windows"</value></para>
         /// </summary>
         public ISupportedPlatform Window => "windows".ToSupportedPlatform();
 
 
         /// <summary>
-        /// "browser"
+        /// <para><value>"browser"</value></para>
         /// </summary>
         public ISupportedPlatform Browser => "browser".ToSupportedPlatform();
     }

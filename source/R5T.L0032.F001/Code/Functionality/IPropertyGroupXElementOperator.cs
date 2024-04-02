@@ -68,6 +68,13 @@ namespace R5T.L0032.F001
                 Instances.OutputTypes.Library);
         }
 
+        public XElement Set_OutputType_WinExe(XElement propertyGroupElement)
+        {
+            return this.Set_OutputType(
+                propertyGroupElement,
+                Instances.OutputTypes.WinExe);
+        }
+
         public XElement Set_TargetFramework(
             XElement propertyGroupElement,
             ITargetFrameworkMoniker targetFrameworkMoniker)

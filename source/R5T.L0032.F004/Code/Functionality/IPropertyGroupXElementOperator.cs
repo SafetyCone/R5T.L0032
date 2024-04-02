@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
-
+using R5T.L0032.Z001;
 using R5T.T0132;
 
 
@@ -113,6 +113,18 @@ namespace R5T.L0032.F004
             return output;
         }
 
+        public XElement Set_StaticWebAssetProjectMode(
+            XElement propertyGroupElement,
+            // Only the "Default" value is supported for Blazor WebAssembly projects (which are the main consumer of this setting).
+            string valueString = IValues.Default_Constant)
+        {
+            var output = Instances.ProjectXElementsOperator.Set_StaticWebAssetProjectMode(
+                propertyGroupElement,
+                valueString);
+
+            return output;
+        }
+
         public XElement Set_NoDefaultLaunchSettingsFile(
             XElement propertyGroupElement,
             // Setting this at all means you probably want it to be true.
@@ -191,17 +203,6 @@ namespace R5T.L0032.F004
             return output;
         }
 
-        public XElement Set_StaticWebAssetProjectMode(
-            XElement propertyGroupElement,
-            string value)
-        {
-            var output = Instances.ProjectXElementsOperator.Set_StaticWebAssetProjectMode(
-                propertyGroupElement,
-                value);
-
-            return output;
-        }
-
         public XElement Set_TargetFramework(
             XElement propertyGroupElement,
             string targetFrameworkValue)
@@ -209,6 +210,28 @@ namespace R5T.L0032.F004
             var output = Instances.ProjectXElementsOperator.Set_TargetFramework(
                 propertyGroupElement,
                 targetFrameworkValue);
+
+            return output;
+        }
+
+        public XElement Set_UseWindowsForms(
+            XElement propertyGroupElement,
+            string valueString)
+        {
+            var output = Instances.ProjectXElementsOperator.Set_UseWindowsForms(
+                propertyGroupElement,
+                valueString);
+
+            return output;
+        }
+
+        public XElement Set_UseWindowsForms(
+            XElement propertyGroupElement,
+            bool value = true)
+        {
+            var output = Instances.ProjectXElementsOperator.Set_UseWindowsForms(
+                propertyGroupElement,
+                value);
 
             return output;
         }

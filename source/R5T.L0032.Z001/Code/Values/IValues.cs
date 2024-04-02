@@ -14,6 +14,9 @@ namespace R5T.L0032.Z001
         /// <summary>
         /// <para><value>Default</value></para>
         /// </summary>
-        public string Default => "Default";
+        public const string Default_Constant = "Default";
+
+        /// <inheritdoc cref="Default_Constant"/>
+        public string Default => IValues.Default_Constant;
     }
 }

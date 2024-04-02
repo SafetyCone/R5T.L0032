@@ -7,6 +7,7 @@ using R5T.T0206;
 using R5T.L0032.F003.Extensions;
 using System.Collections.Generic;
 using System.Linq;
+using R5T.L0032.Z001;
 
 
 namespace R5T.L0032.F004
@@ -94,6 +95,19 @@ namespace R5T.L0032.F004
                 value);
 
             return output;
+        }
+
+        public XElement Add_SupportedPlatform(
+            XElement itemGroupElement,
+            string includeValue)
+        {
+            var packageReferenceElement = this.Get_SupportedPlatform(includeValue);
+
+            Instances.XElementOperator.Add_Child(
+                itemGroupElement,
+                packageReferenceElement);
+
+            return packageReferenceElement;
         }
 
         public XElement Add_Folder(
@@ -294,6 +308,17 @@ namespace R5T.L0032.F004
             return comReferenceElement;
         }
 
+        public XElement Get_SupportedPlatform(string includeValue)
+        {
+            var packageReferenceElement = this.New_SupportedPlatform();
+
+            this.Set_Include(
+                packageReferenceElement,
+                includeValue);
+
+            return packageReferenceElement;
+        }
+
         public XElement Get_FolderElement(string relativePath)
         {
             var packageReferenceElement = this.New_FolderElement();
@@ -370,6 +395,14 @@ namespace R5T.L0032.F004
         {
             var comReferenceElement = Instances.XElementOperator.New(
                 Instances.ProjectNodeNames.Folder);
+
+            return comReferenceElement;
+        }
+
+        public XElement New_SupportedPlatform()
+        {
+            var comReferenceElement = Instances.XElementOperator.New(
+                Instances.ProjectNodeNames.SupportedPlatform);
 
             return comReferenceElement;
         }
@@ -567,6 +600,19 @@ namespace R5T.L0032.F004
             return noDefaultLaunchSettingsFileElement;
         }
 
+        public XElement Set_StaticWebAssetProjectMode(
+            XElement propertyGroupElement,
+            // Only the "Default" value is supported for Blazor WebAssembly projects (which are the main consumer of this setting).
+            string valueString = IValues.Default_Constant)
+        {
+            var noWarnElement = Instances.XElementOperator.Set_ChildValue(
+                propertyGroupElement,
+                Instances.ProjectNodeNames.StaticWebAssetProjectMode,
+                valueString);
+
+            return noWarnElement;
+        }
+
         public XElement Set_NoWarn(
             XElement propertyGroupElement,
             string warningNumbersList)
@@ -658,18 +704,6 @@ namespace R5T.L0032.F004
             return sdkAttribute;
         }
 
-        public XElement Set_StaticWebAssetProjectMode(
-            XElement propertyGroupElement,
-            string value)
-        {
-            var staticWebAssetProjectModeElement = Instances.XElementOperator.Set_ChildValue(
-                propertyGroupElement,
-                Instances.ProjectNodeNames.StaticWebAssetProjectMode,
-                value);
-
-            return staticWebAssetProjectModeElement;
-        }
-
         public XElement Set_TargetFramework(
             XElement propertyGroupElement,
             string targetFrameworkValue)
@@ -680,6 +714,29 @@ namespace R5T.L0032.F004
                 targetFrameworkValue);
 
             return targetFrameworkElement;
+        }
+
+        public XElement Set_UseWindowsForms(
+            XElement propertyGroupElement,
+            string valueString)
+        {
+            var useWindowsFormsElement = Instances.XElementOperator.Set_ChildValue(
+                propertyGroupElement,
+                Instances.ProjectNodeNames.UseWindowsForms,
+                valueString);
+
+            return useWindowsFormsElement;
+        }
+
+        public XElement Set_UseWindowsForms(
+            XElement propertyGroupElement,
+            bool value = true)
+        {
+            var valueString = Instances.BooleanOperator.To_String_ForProjectXml(value);
+
+            return this.Set_UseWindowsForms(
+                propertyGroupElement,
+                valueString);
         }
 
         public void Set_Version(

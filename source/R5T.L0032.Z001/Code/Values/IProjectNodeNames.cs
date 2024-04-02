@@ -62,6 +62,10 @@ namespace R5T.L0032.Z001
         /// <para><value>StaticWebAssetProjectMode</value></para>
         /// </summary>
         public string StaticWebAssetProjectMode => "StaticWebAssetProjectMode";
+
+        /// <summary>
+        /// <para><value>SupportedPlatform</value></para>
+        /// </summary>
         public string SupportedPlatform => "SupportedPlatform";
         public string TargetFramework => "TargetFramework";
         public string TargetFrameworkVersion => "TargetFrameworkVersion";

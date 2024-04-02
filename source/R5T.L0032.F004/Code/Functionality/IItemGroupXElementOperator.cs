@@ -22,6 +22,17 @@ namespace R5T.L0032.F004
             return output;
         }
 
+        public XElement Add_SupportedPlatform(
+            XElement itemGroupElement,
+            string includeValue)
+        {
+            var output = Instances.ProjectXElementsOperator.Add_SupportedPlatform(
+                itemGroupElement,
+                includeValue);
+
+            return output;
+        }
+
         public XElement Add_Folder(
             XElement itemGroupElement,
             string relativePath)
