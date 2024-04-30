@@ -15,8 +15,24 @@ namespace R5T.L0032.Z001
         public string CheckEolTargetFramework => "CheckEolTargetFramework";
         public string Company => "Company";
         public string COMReference => "COMReference";
+
+        /// <summary>
+        /// <para><value>Content</value></para>
+        /// </summary>
+        public string Content => "Content";
+
         public string Copyright => "Copyright";
+
+        /// <summary>
+        /// <para><value>CopyToOutputDirectory</value></para>
+        /// </summary>
         public string CopyToOutputDirectory => "CopyToOutputDirectory";
+
+        /// <summary>
+        /// <para><value>CopyToPublishDirectory</value></para>
+        /// </summary>
+        public string CopyToPublishDirectory => "CopyToPublishDirectory";
+
         public string Description => "Description";
         public string EmbedInteropTypes => "EmbedInteropTypes";
         public string FrameworkReference => "FrameworkReference";
@@ -74,6 +90,15 @@ namespace R5T.L0032.Z001
         public string Version => "Version";
         public string VersionMinor => "VersionMinor";
         public string VersionMajor => "VersionMajor";
+
+        /// <summary>
+        /// <para><value>WasmEnableWebcil</value></para>
+        /// </summary>
+        public string WasmEnableWebcil => "WasmEnableWebcil";
+
+        /// <summary>
+        /// <para><value>WrapperTool</value></para>
+        /// </summary>
         public string WrapperTool => "WrapperTool";
     }
 }

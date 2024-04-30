@@ -1,13 +1,14 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 
 using R5T.T0132;
 using R5T.T0206;
 
 using R5T.L0032.F003.Extensions;
-using System.Collections.Generic;
-using System.Linq;
-using R5T.L0032.Z001;
+
+using IProjectElementValues = R5T.L0032.Z001.IValues;
 
 
 namespace R5T.L0032.F004
@@ -31,6 +32,15 @@ namespace R5T.L0032.F004
             return includeAttribute;
         }
 
+        public XAttribute Acquire_UpdateAttribute(XElement includeAttributedElement)
+        {
+            var includeAttribute = Instances.XElementOperator.Acquire_Attribute(
+                includeAttributedElement,
+                Instances.ProjectNodeNames.Update);
+
+            return includeAttribute;
+        }
+
         public XAttribute Acquire_LabelAttribute(XElement labelAttributedElement)
         {
             var labelAttribute = Instances.XElementOperator.Acquire_Attribute(
@@ -47,6 +57,19 @@ namespace R5T.L0032.F004
         public XAttribute Acquire_SdkAttribute(XElement projectElement)
         {
             var sdkAttribute = Instances.XElementOperator.Acquire_Attribute(
+                projectElement,
+                Instances.ProjectNodeNames.Sdk);
+
+            return sdkAttribute;
+        }
+
+        /// <summary>
+        /// Get the project SDK attribute.
+        /// <inheritdoc cref="Z001.IProjectNodeNames.Sdk" path="/summary"/>
+        /// </summary>
+        public XAttribute Get_SdkAttribute(XElement projectElement)
+        {
+            var sdkAttribute = Instances.XElementOperator.Get_Attribute(
                 projectElement,
                 Instances.ProjectNodeNames.Sdk);
 
@@ -137,6 +160,25 @@ namespace R5T.L0032.F004
                 packageReferenceElement);
 
             return packageReferenceElement;
+        }
+
+        public XElement Add_Content_CopyToPublishDirectory_Never(
+            XElement itemGroupElement,
+            string projectDirectoryPathRelativeFilePath)
+        {
+            var contentElement = this.Get_ContentElement(projectDirectoryPathRelativeFilePath);
+
+            var copyToPublishDirectoryNever = this.Get_CopyToPublishDirectoryElement_Never();
+
+            Instances.XElementOperator.Add_Child(
+                contentElement,
+                copyToPublishDirectoryNever);
+
+            Instances.XElementOperator.Add_Child(
+                itemGroupElement,
+                contentElement);
+
+            return contentElement;
         }
 
         public XElement Add_ProjectReference(
@@ -345,6 +387,29 @@ namespace R5T.L0032.F004
             return packageReferenceElement;
         }
 
+        public XElement Get_ContentElement(string projectDirectoryRelativeFilePath)
+        {
+            var packageReferenceElement = this.New_ContentXElement();
+
+            this.Set_Update(
+                packageReferenceElement,
+                projectDirectoryRelativeFilePath);
+
+            return packageReferenceElement;
+        }
+
+        public XElement Get_CopyToPublishDirectoryElement_Never()
+        {
+            var copyToPublishDirectoryElement = Instances.XElementOperator.New(
+                Instances.ProjectNodeNames.CopyToPublishDirectory);
+
+            Instances.XElementOperator.Set_Value(
+                copyToPublishDirectoryElement,
+                Instances.Values.Never);
+
+            return copyToPublishDirectoryElement;
+        }
+
         public bool Has_LabelAttribute(
             XElement element,
             out XAttribute labelAttributeOrDefault)
@@ -429,6 +494,14 @@ namespace R5T.L0032.F004
                 Instances.ProjectNodeNames.Project);
 
             return projectElement;
+        }
+
+        public XElement New_ContentXElement()
+        {
+            var comReferenceElement = Instances.XElementOperator.New(
+                Instances.ProjectNodeNames.Content);
+
+            return comReferenceElement;
         }
 
         public XElement New_ProjectReferenceXElement()
@@ -572,6 +645,19 @@ namespace R5T.L0032.F004
             return includeAttribute;
         }
 
+        public XAttribute Set_Update(
+            XElement groupElement,
+            string value)
+        {
+            var includeAttribute = this.Acquire_UpdateAttribute(groupElement);
+
+            Instances.XAttributeOperator.Set_Value(
+                includeAttribute,
+                value);
+
+            return includeAttribute;
+        }
+
         public XAttribute Set_Label(
             XElement labelAttributedElement,
             string label)
@@ -603,11 +689,23 @@ namespace R5T.L0032.F004
         public XElement Set_StaticWebAssetProjectMode(
             XElement propertyGroupElement,
             // Only the "Default" value is supported for Blazor WebAssembly projects (which are the main consumer of this setting).
-            string valueString = IValues.Default_Constant)
+            string valueString = IProjectElementValues.Default_Constant)
         {
             var noWarnElement = Instances.XElementOperator.Set_ChildValue(
                 propertyGroupElement,
                 Instances.ProjectNodeNames.StaticWebAssetProjectMode,
+                valueString);
+
+            return noWarnElement;
+        }
+
+        public XElement Set_WasmEnableWebcli(
+            XElement propertyGroupElement,
+            string valueString)
+        {
+            var noWarnElement = Instances.XElementOperator.Set_ChildValue(
+                propertyGroupElement,
+                Instances.ProjectNodeNames.WasmEnableWebcil,
                 valueString);
 
             return noWarnElement;

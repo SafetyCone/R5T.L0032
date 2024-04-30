@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -21,9 +22,34 @@ namespace R5T.L0032.F004
             return output;
         }
 
+        public XAttribute Get_SdkAttribute(XElement projectElement)
+        {
+            var output = Instances.ProjectXElementsOperator.Get_SdkAttribute(projectElement);
+            return output;
+        }
+
+        public string Get_Sdk(XElement projectElement)
+        {
+            var sdkAttribute = this.Get_SdkAttribute(projectElement);
+
+            var output = Instances.XAttributeOperator.Get_Value(sdkAttribute);
+            return output;
+        }
+
         public XElement Append_NewPropertyGroupXElement(XElement projectElement)
         {
             var output = Instances.ProjectXElementsOperator.Append_NewPropertyGroupXElement(projectElement);
+            return output;
+        }
+
+        public IEnumerable<XElement> Enumerate_PropertyGroupElements(XElement projectElement)
+        {
+            var output = Instances.XElementOperator.Enumerate_Children(projectElement)
+                .Where(element => Instances.XElementOperator.Name_Is(
+                    element,
+                    Instances.ProjectNodeNames.PropertyGroup))
+                ;
+
             return output;
         }
 

@@ -13,6 +13,7 @@ namespace R5T.L0032.F004
         public static F003.IProjectPathsOperator ProjectPathsOperator => F003.ProjectPathsOperator.Instance;
         public static IProjectXElementsOperator ProjectXElementsOperator => F004.ProjectXElementsOperator.Instance;
         public static Z001.IProjectNodeNames ProjectNodeNames => Z001.ProjectNodeNames.Instance;
+        public static IValues Values => F004.Values.Instance;
         public static F003.IVersionOperator VersionOperator => F003.VersionOperator.Instance;
         public static L0066.IXAttributeOperator XAttributeOperator => L0066.XAttributeOperator.Instance;
         public static L0066.IXElementOperator XElementOperator => L0066.XElementOperator.Instance;

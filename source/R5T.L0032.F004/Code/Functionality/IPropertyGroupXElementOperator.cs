@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
-using R5T.L0032.Z001;
 using R5T.T0132;
+
+using IProjectElementValues = R5T.L0032.Z001.IValues;
 
 
 namespace R5T.L0032.F004
@@ -116,9 +117,33 @@ namespace R5T.L0032.F004
         public XElement Set_StaticWebAssetProjectMode(
             XElement propertyGroupElement,
             // Only the "Default" value is supported for Blazor WebAssembly projects (which are the main consumer of this setting).
-            string valueString = IValues.Default_Constant)
+            string valueString = IProjectElementValues.Default_Constant)
         {
             var output = Instances.ProjectXElementsOperator.Set_StaticWebAssetProjectMode(
+                propertyGroupElement,
+                valueString);
+
+            return output;
+        }
+
+        public XElement Set_WasmEnableWebcli(
+            XElement propertyGroupElement,
+            string valueString)
+        {
+            var output = Instances.ProjectXElementsOperator.Set_WasmEnableWebcli(
+                propertyGroupElement,
+                valueString);
+
+            return output;
+        }
+
+        public XElement Set_WasmEnableWebcli(
+            XElement propertyGroupElement,
+            bool value = false)
+        {
+            var valueString = Instances.BooleanOperator.To_String_ForProjectXml(value);
+
+            var output = this.Set_WasmEnableWebcli(
                 propertyGroupElement,
                 valueString);
 

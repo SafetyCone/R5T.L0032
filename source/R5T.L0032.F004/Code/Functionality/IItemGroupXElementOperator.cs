@@ -56,6 +56,17 @@ namespace R5T.L0032.F004
             return output;
         }
 
+        public XElement Add_Content_CopyToPublishDirectory_Never(
+            XElement itemGroupElement,
+            string projectDirectoryRelativeFilePath)
+        {
+            var output = Instances.ProjectXElementsOperator.Add_Content_CopyToPublishDirectory_Never(
+                itemGroupElement,
+                projectDirectoryRelativeFilePath);
+
+            return output;
+        }
+
         public XElement Add_ProjectReference(
             XElement itemGroupElement,
             string projectFilePath,
