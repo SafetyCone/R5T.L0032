@@ -9,6 +9,9 @@ using R5T.L0032.T000;
 
 namespace R5T.L0032.F000
 {
+    /// <summary>
+    /// Strongly-typed <see cref="IProjectDocument"/> and <see cref="IProjectFilePath"/> level abstraction methods.
+    /// </summary>
     [FunctionalityMarker]
     public partial interface IProjectDocumentOperator : IFunctionalityMarker
     {
