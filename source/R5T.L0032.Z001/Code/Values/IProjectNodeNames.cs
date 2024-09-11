@@ -11,6 +11,11 @@ namespace R5T.L0032.Z001
     [ValuesMarker]
     public partial interface IProjectNodeNames : IValuesMarker
     {
+#pragma warning disable IDE1006 // Naming Styles
+        public Raw.IProjectNodeNames _Raw => Raw.ProjectNodeNames.Instance;
+#pragma warning restore IDE1006 // Naming Styles
+
+
         /// <summary>
         /// <para><value>Name</value></para>
         /// Common - used by MSBuild.
@@ -94,6 +99,11 @@ namespace R5T.L0032.Z001
         public string PackageReference => "PackageReference";
         public string PackageRequireLicenseAcceptance => "PackageRequireLicenseAcceptance";
         public string PackageTags => "PackageTags";
+
+        /// <summary>
+        /// <para><value>Project</value></para>
+        /// The name of the root element of a .NET project file.
+        /// </summary>
         public string Project => "Project";
         public string ProjectReference => "ProjectReference";
         public string PropertyGroup => "PropertyGroup";

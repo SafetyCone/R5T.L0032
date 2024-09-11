@@ -17,3 +17,21 @@ namespace R5T.L0032.Z001
         #endregion
     }
 }
+
+
+namespace R5T.L0032.Z001.Raw
+{
+    public class ProjectNodeNames : IProjectNodeNames
+    {
+        #region Infrastructure
+
+        public static IProjectNodeNames Instance { get; } = new ProjectNodeNames();
+
+
+        private ProjectNodeNames()
+        {
+        }
+
+        #endregion
+    }
+}
