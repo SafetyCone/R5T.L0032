@@ -3,6 +3,7 @@ using System;
 using R5T.L0032.T000;
 using R5T.L0032.T000.Extensions;
 using R5T.T0131;
+using R5T.T0143;
 
 
 namespace R5T.L0032.Z002
@@ -17,7 +18,10 @@ namespace R5T.L0032.Z002
     public partial interface IGroupLabels : IValuesMarker
     {
 #pragma warning disable IDE1006 // Naming Styles
+
+        [Ignore]
         public Platform.IGroupLabels _Platform => Platform.GroupLabels.Instance;
+
 #pragma warning restore IDE1006 // Naming Styles
 
 

@@ -3,7 +3,7 @@ using System;
 using R5T.L0030.T000;
 using R5T.L0030.T000.Extensions;
 using R5T.T0131;
-
+using R5T.T0143;
 using IElementOrAttributeName = R5T.L0030.T000.N001.IElementName;
 
 
@@ -22,7 +22,9 @@ namespace R5T.L0032.Z000
         /// <summary>
         /// Stringly-typed values.
         /// </summary>
+        [Ignore]
         public Z001.IProjectNodeNames _Platform => Z001.ProjectNodeNames.Instance;
+
 #pragma warning restore IDE1006 // Naming Styles
 
 

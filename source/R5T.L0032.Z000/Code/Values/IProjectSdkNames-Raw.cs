@@ -4,6 +4,7 @@ using R5T.T0131;
 
 using R5T.L0032.T000;
 using R5T.L0032.T000.Extensions;
+using R5T.T0143;
 
 
 namespace R5T.L0032.Z000.Raw
@@ -13,7 +14,10 @@ namespace R5T.L0032.Z000.Raw
     public partial interface IProjectSdkNames : IValuesMarker
     {
 #pragma warning disable IDE1006 // Naming Styles
+
+        [Ignore]
         public Z001.Raw.IProjectSdkNames _Platform => Z001.Raw.ProjectSdkNames.Instance;
+
 #pragma warning restore IDE1006 // Naming Styles
 
 
