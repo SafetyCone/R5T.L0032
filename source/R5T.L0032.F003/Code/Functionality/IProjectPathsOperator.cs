@@ -39,7 +39,7 @@ namespace R5T.L0032.F003
                 .Select(referenceProjectFilePath => this.Get_RelativeReferenceProjectFilePath_UsingProjectDirectoryPath(
                     projectDirectoryPath,
                     referenceProjectFilePath))
-                .Now();
+                .ToArray();
 
             return output;
         }

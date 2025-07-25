@@ -51,7 +51,7 @@ namespace R5T.L0032.F004
         }
 
         /// <summary>
-        /// <inheritdoc cref="L0066.IXElementOperator.Acquire_Attribute(XElement, string)" path="/summary"/>
+        /// <inheritdoc cref="F10Y.L0000.IXElementOperator.Acquire_Attribute(XElement, string)" path="/summary"/>
         /// <inheritdoc cref="Z001.IProjectNodeNames.Sdk" path="/summary"/>
         /// </summary>
         public XAttribute Acquire_SdkAttribute(XElement projectElement)

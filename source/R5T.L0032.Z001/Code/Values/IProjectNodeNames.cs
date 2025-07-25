@@ -21,7 +21,7 @@ namespace R5T.L0032.Z001
 
 
         /// <summary>
-        /// <para><value>Name</value></para>
+        /// <para><value>AssemblyName</value></para>
         /// Common - used by MSBuild.
         /// </summary>
         public string AssemblyName => "AssemblyName";
