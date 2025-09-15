@@ -77,7 +77,7 @@ namespace R5T.L0032.F001
                 propertyGroupElement,
                 warningNumbersList);
 
-        /// <inheritdoc cref="Z001.IOutputTypes.Exe"/>
+        /// <inheritdoc cref="F10Y.L0006.Z000.IOutputTypes.Exe"/>
         public Action<XElement> Set_OutputType_Exe =>
             propertyGroupElement => Instances.PropertyGroupXElementOperator.Set_OutputType(
                 propertyGroupElement,

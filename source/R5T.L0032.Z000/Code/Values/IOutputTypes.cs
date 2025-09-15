@@ -19,19 +19,19 @@ namespace R5T.L0032.Z000
 #pragma warning restore IDE1006 // Naming Styles
 
 
-        /// <inheritdoc cref="Z001.IOutputTypes.Default"/>
+        /// <inheritdoc cref="F10Y.L0006.Z000.IOutputTypes.Default"/>
         public IOutputType Default => this.Library;
 
-        /// <inheritdoc cref="Z001.IOutputTypes.Exe"/>
+        /// <inheritdoc cref="F10Y.L0006.Z000.IOutputTypes.Exe"/>
         public IOutputType Exe => _Platform.Exe.ToOutputType();
 
-        /// <inheritdoc cref="Z001.IOutputTypes.Library"/>
+        /// <inheritdoc cref="F10Y.L0006.Z000.IOutputTypes.Library"/>
         public IOutputType Library => _Platform.Library.ToOutputType();
 
-        /// <inheritdoc cref="Z001.IOutputTypes.Module"/>
+        /// <inheritdoc cref="F10Y.L0006.Z000.IOutputTypes.Module"/>
         public IOutputType Module => _Platform.Module.ToOutputType();
 
-        /// <inheritdoc cref="Z001.IOutputTypes.WinExe"/>
+        /// <inheritdoc cref="F10Y.L0006.Z000.IOutputTypes.WinExe"/>
         public IOutputType WinExe => _Platform.WinExe.ToOutputType();
     }
 }
